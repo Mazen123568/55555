@@ -1,5 +1,5 @@
 #EXTM3U
-#EXTINF:-1 tvg-logo="https://alternatv.ar/alternatv.png" group-title="🎬 أفلام",Alterna TV (720p)
+#EXTINF:-1 tvg-logo="https://alternatv.ar/alternatv.png" group-title="📚 ثقافة",Alterna TV (720p)
 https://alternatv.ar/stream/hls/live.m3u8
 #EXTINF:-1 tvg-logo="https://i.ibb.co/yynxRTS/Bravo-Farsi.jpg" group-title="🎬 أفلام",Bravo Farsi TV (360p)
 https://bravoohls.wns.live/hls/stream.m3u8
@@ -9,17 +9,17 @@ https://content.uplynk.com/channel/37eb732888614810b512fdd82604244e.m3u8
 http://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/628e685ba3811100070551a8/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=6c291886-30d3-11ef-9cf5-e9ddff8ff496&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=58dbb587-5d0d-412d-ae10-107ee9caac5a
 #EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="🎬 أفلام",Hallmark Movies Mysteries East
 http://fl3.moveonjoy.com/HALLMARK_MOVIES_MYSTERIES/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/kDhcymF/ifilm.png" group-title="🎬 أفلام",IFILM AR
+#EXTINF:-1 tvg-logo="https://i.ibb.co/kDhcymF/ifilm.png" group-title="📦 أخرى",IFILM AR
 https://live.presstv.ir/hls/ifilmar_4_482/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/kDhcymF/ifilm.png" group-title="🎬 أفلام",IRIB IFILM FAR
+#EXTINF:-1 tvg-logo="https://i.ibb.co/kDhcymF/ifilm.png" group-title="📦 أخرى",IRIB IFILM FAR
 https://live.presstv.ir/hls/ifilmfa_4_482/index.m3u8
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Kino_Barrandov_logo.png/512px-Kino_Barrandov_logo.png" group-title="🎬 أفلام",Kino Barrandov (720p)
 http://83.167.253.107/hdmi1_ext
-#EXTINF:-1 tvg-logo="https://i.ibb.co/mc475nQ/shadidblck.jpg" group-title="🎬 أفلام",MBC MOVIES
+#EXTINF:-1 tvg-logo="https://i.ibb.co/mc475nQ/shadidblck.jpg" group-title="📦 أخرى",MBC MOVIES
 https://shls-live-enc.edgenextcdn.net/out/v1/90143f040feb40589d18c57863d9e829/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/mc475nQ/shadidblck.jpg" group-title="🎬 أفلام",MBC MOVIES ACTION
+#EXTINF:-1 tvg-logo="https://i.ibb.co/mc475nQ/shadidblck.jpg" group-title="📦 أخرى",MBC MOVIES ACTION
 https://shls-live-enc.edgenextcdn.net/out/v1/46079e838e65490c8299f902a7731168/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/mc475nQ/shadidblck.jpg" group-title="🎬 أفلام",MBC MOVIES THRILLER
+#EXTINF:-1 tvg-logo="https://i.ibb.co/mc475nQ/shadidblck.jpg" group-title="📦 أخرى",MBC MOVIES THRILLER
 https://shls-live-enc.edgenextcdn.net/out/v1/f6d718e841f8442f8374de47f18c93a7/index.m3u8
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/MGM%2B_Marquee_2023.svg/512px-MGM%2B_Marquee_2023.svg.png" group-title="🎬 أفلام",MGM+ Marquee
 http://fl3.moveonjoy.com/EPIX_DRIVE_IN/index.m3u8
@@ -31,103 +31,103 @@ http://185.189.225.150:85/Paramount/index.m3u8
 http://fl3.moveonjoy.com/PARAMOUNT_NETWORK/index.m3u8
 #EXTINF:-1 tvg-logo="https://images.pluto.tv/channels/5ff8c708653d080007361b14/featuredImage.jpg" group-title="🎬 أفلام",Paramount+ Picks
 http://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/5ff8c708653d080007361b14/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=6c2a9f20-30d3-11ef-9cf5-e9ddff8ff496&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=86df5336-6268-4928-9b7d-3af618ca807b
-#EXTINF:-1 tvg-logo="https://i.ibb.co/7W5nWYV/rotanacinema.png" group-title="🎬 أفلام",ROTANA CINEMA KSA
+#EXTINF:-1 tvg-logo="https://i.ibb.co/7W5nWYV/rotanacinema.png" group-title="📦 أخرى",ROTANA CINEMA KSA
 https://bcovlive-a.akamaihd.net/9527a892aeaf43019fd9eeb77ad1516e/eu-central-1/6057955906001/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Star_Channel_2020.svg/512px-Star_Channel_2020.svg.png" group-title="🎬 أفلام",Star Channel Central America
 https://streamer1.nexgen.bz/STAR/index.m3u8
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/b/b9/IFILM.png" group-title="🎬 أفلام",iFilm Arabic
 https://live.presstv.ir/hls/ifilmar.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/2ndSCfQ/mbcdrama0.png" group-title="📺 مسلسلات",MBC DRAMA
+#EXTINF:-1 tvg-logo="https://i.ibb.co/2ndSCfQ/mbcdrama0.png" group-title="📦 أخرى",MBC DRAMA
 https://mbc1-enc.edgenextcdn.net/out/v1/b0b3a0e6750d4408bb86d703d5feffd1/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/2ndSCfQ/mbcdrama0.png" group-title="📺 مسلسلات",MBC DRAMA MASR
+#EXTINF:-1 tvg-logo="https://i.ibb.co/2ndSCfQ/mbcdrama0.png" group-title="📦 أخرى",MBC DRAMA MASR
 https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/xzdqq9y/mbcdrama.png" group-title="📺 مسلسلات",MBC DRAMA PLUS
+#EXTINF:-1 tvg-logo="https://i.ibb.co/xzdqq9y/mbcdrama.png" group-title="📦 أخرى",MBC DRAMA PLUS
 https://shls-mbcplusdrama-prod-dub.shahid.net/out/v1/97ca0ce6fc6142f4b14c0a694af59eab/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/2ndSCfQ/mbcdrama0.png" group-title="📺 مسلسلات",MBC DRAMA USA
+#EXTINF:-1 tvg-logo="https://i.ibb.co/2ndSCfQ/mbcdrama0.png" group-title="📦 أخرى",MBC DRAMA USA
 https://mbcdrama-usa-ak.akamaized.net/out/v1/876f960feec24a8aba9e9d3f9023174b/index.m3u8
-#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📺 مسلسلات",MBC Drama
+#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",MBC Drama
 https://mbc1-enc.edgenextcdn.net/out/v1/b0b3a0e6750d4408bb86d703d5feffd1/index.m3u8
-#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📺 مسلسلات",Star Trek: The Original Series – Pluto TV
+#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",Star Trek: The Original Series – Pluto TV
 https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/6581a09edfed030008e12b39/master.m3u8?deviceId=channel&deviceModel=web&deviceVersion=1.0&appVersion=1.0&deviceType=rokuChannel&deviceMake=rokuChannel&deviceDNT=1&advertisingId=channel&embedPartner=rokuChannel&appName=rokuchannel&is_lat=1&bmodel=bm1&content=channel&platform=web&tags=ROKU_CONTENT_TAGS&coppa=false&content_type=livefeed&rdid=channel&genre=ROKU_ADS_CONTENT_GENRE&content_rating=ROKU_ADS_CONTENT_RATING&studio_id=viacom&channel_id=channel
-#EXTINF:-1 tvg-logo="https://i.ibb.co/L61bf70/adspts.png" group-title="🏟️ رياضة",ABU DHABI SPORTS 1
+#EXTINF:-1 tvg-logo="https://i.ibb.co/L61bf70/adspts.png" group-title="📦 أخرى",ABU DHABI SPORTS 1
 https://vo-live-media.cdb.cdn.orange.com/Content/Channel/AbuDhabiSportsChannel1/HLS/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/L61bf70/adspts.png" group-title="🏟️ رياضة",ABU DHABI SPORTS 2
+#EXTINF:-1 tvg-logo="https://i.ibb.co/L61bf70/adspts.png" group-title="📦 أخرى",ABU DHABI SPORTS 2
 https://vo-live.cdb.cdn.orange.com/Content/Channel/AbuDhabiSportsChannel2/HLS/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/LR2KqPJ/dbaispt.png" group-title="🏟️ رياضة",DUBAI SPORTS 1
+#EXTINF:-1 tvg-logo="https://i.ibb.co/LR2KqPJ/dbaispt.png" group-title="📦 أخرى",DUBAI SPORTS 1
 https://dmidspta.cdn.mangomolo.com/dubaisports/smil:dubaisports.stream.smil/playlist.m3u?m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/LR2KqPJ/dbaispt.png" group-title="🏟️ رياضة",DUBAI SPORTS 2
+#EXTINF:-1 tvg-logo="https://i.ibb.co/LR2KqPJ/dbaispt.png" group-title="📦 أخرى",DUBAI SPORTS 2
 https://dmitwlvvll.cdn.mangomolo.com/dubaisportshd/smil:dubaisportshd.smil/playlist.m3u?m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/LR2KqPJ/dbaispt.png" group-title="🏟️ رياضة",DUBAI SPORTS 3
+#EXTINF:-1 tvg-logo="https://i.ibb.co/LR2KqPJ/dbaispt.png" group-title="📦 أخرى",DUBAI SPORTS 3
 https://dmitwlvvll.cdn.mangomolo.com/dubaisportshd5/smil:dubaisportshd5.smil/playlist.m3u?m3u8
-#EXTINF:-1 tvg-logo="https://www.lyngsat.com/logo/tv/dd/dubai-sports-ae.png" group-title="🏟️ رياضة",Dubai Sports 2
+#EXTINF:-1 tvg-logo="https://www.lyngsat.com/logo/tv/dd/dubai-sports-ae.png" group-title="📦 أخرى",Dubai Sports 2
 https://dmitwlvvll.cdn.mangomolo.com/dubaisportshd/smil:dubaisportshd.smil/index.m3u8
-#EXTINF:-1 tvg-logo="https://www.lyngsat.com/logo/tv/dd/dubai-sports-ae.png" group-title="🏟️ رياضة",Dubai Sports 3
+#EXTINF:-1 tvg-logo="https://www.lyngsat.com/logo/tv/dd/dubai-sports-ae.png" group-title="📦 أخرى",Dubai Sports 3
 https://dmitwlvvll.cdn.mangomolo.com/dubaisportshd5/smil:dubaisportshd5.smil/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/tMLDMdy/kwttv.png" group-title="🏟️ رياضة",KUWAIT TV SPORT PLUS
+#EXTINF:-1 tvg-logo="https://i.ibb.co/tMLDMdy/kwttv.png" group-title="📦 أخرى",KUWAIT TV SPORT PLUS
 https://kwtsplta.cdn.mangomolo.com/spl/smil:spl.stream.smil/chunklist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/tMLDMdy/kwttv.png" group-title="🏟️ رياضة",KUWAIT TV SPORTS
+#EXTINF:-1 tvg-logo="https://i.ibb.co/tMLDMdy/kwttv.png" group-title="📦 أخرى",KUWAIT TV SPORTS
 https://kwtspta.cdn.mangomolo.com/sp/smil:sp.stream.smil/chunklist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/GJVSFNt/oman.png" group-title="🏟️ رياضة",OMAN SPORT
+#EXTINF:-1 tvg-logo="https://i.ibb.co/GJVSFNt/oman.png" group-title="📦 أخرى",OMAN SPORT
 https://partneta.cdn.mgmlcdn.com/omsport/smil:omsport.stream.smil/chunklist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/1bpYYZ2/shrspt.png" group-title="🏟️ رياضة",SHARJAH TV SPORTS
+#EXTINF:-1 tvg-logo="https://i.ibb.co/1bpYYZ2/shrspt.png" group-title="📦 أخرى",SHARJAH TV SPORTS
 https://svs.itworkscdn.net/smc4sportslive/smc4.smil/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="🏟️ رياضة",San Marino Rtv Sport
+#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",San Marino Rtv Sport
 https://d2hrvno5bw6tg2.cloudfront.net/smrtv-ch02/_definst_/smil:ch-02.smil/chunklist_b1692000_slita.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/nMzmrDFJ/Aliraqianews.jpg" group-title="📰 أخبار",AL IRAQIA NEWS
+#EXTINF:-1 tvg-logo="https://i.ibb.co/nMzmrDFJ/Aliraqianews.jpg" group-title="📦 أخرى",AL IRAQIA NEWS
 https://cdn.catiacast.video/abr/78054972db7708422595bc96c6e024ac/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/CMk8DS1/alqahera.png" group-title="📰 أخبار",AL QAHERA NEWS
+#EXTINF:-1 tvg-logo="https://i.ibb.co/CMk8DS1/alqahera.png" group-title="📦 أخرى",AL QAHERA NEWS
 https://bcovlive-a.akamaihd.net/d30cbb3350af4cb7a6e05b9eb1bfd850/eu-west-1/6057955906001/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/nzjbYfR/asharq.png" group-title="📰 أخبار",ASHARQ NEWS
+#EXTINF:-1 tvg-logo="https://i.ibb.co/nzjbYfR/asharq.png" group-title="📦 أخرى",ASHARQ NEWS
 https://bcovlive-a.akamaihd.net/0b75ef0a49e24704a4ca023d3a82c2df/ap-south-1/6203311941001/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/nzjbYfR/asharq.png" group-title="📰 أخبار",ASHARQ NEWS (backup)
+#EXTINF:-1 tvg-logo="https://i.ibb.co/nzjbYfR/asharq.png" group-title="📦 أخرى",ASHARQ NEWS (backup)
 https://asharq-prod-dub-enc.edgenextcdn.net/out/v1/3b6b4902cf8747a28619411239584002/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/nzjbYfR/asharq.png" group-title="📰 أخبار",ASHARQ NEWS (portrait mode)
+#EXTINF:-1 tvg-logo="https://i.ibb.co/nzjbYfR/asharq.png" group-title="📦 أخرى",ASHARQ NEWS (portrait mode)
 https://bcovlive-a.akamaihd.net/ed81ac1118414d4fa893d3a83ccec9be/eu-central-1/6203311941001/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Al-Arabiya_new_logo.svg/640px-Al-Arabiya_new_logo.svg.png" group-title="📰 أخبار",Al Arabiya العربية
 https://live.alarabiya.net/alarabiapublish/alarabiya.smil/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📰 أخبار",Al Jazeera العربية
 https://live-hls-web-aja.getaj.net/AJA/index.m3u8
-#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📰 أخبار",Al-Sharqiya News
+#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",Al-Sharqiya News
 https://5d94523502c2d.streamlock.net/alsharqiyalive/mystream/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/JcP5JHq/bbcaranw.png" group-title="📰 أخبار",BBC NEWS ARABIA
+#EXTINF:-1 tvg-logo="https://i.ibb.co/JcP5JHq/bbcaranw.png" group-title="📦 أخرى",BBC NEWS ARABIA
 https://vs-hls-pushb-ww.live.cf.md.bbci.co.uk/x=4/i=urn:bbc:pips:service:bbc_arabic_tv/mobile_wifi_main_sd_abr_v2.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/JcP5JHq/bbcaranw.png" group-title="📰 أخبار",BBC NEWS ARABIA (backup)
+#EXTINF:-1 tvg-logo="https://i.ibb.co/JcP5JHq/bbcaranw.png" group-title="📦 أخرى",BBC NEWS ARABIA (backup)
 https://vs-hls-pushb-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_arabic_tv/pc_hd_abr_v2.m3u8
 #EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📰 أخبار",CGTN العربية
 https://news.cgtn.com/resource/live/arabic/cgtn-a.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/rH3FDN2/cheddar.jpg" group-title="📰 أخبار",CHEDDAR NEWS
+#EXTINF:-1 tvg-logo="https://i.ibb.co/rH3FDN2/cheddar.jpg" group-title="📦 أخرى",CHEDDAR NEWS
 https://livestream.chdrstatic.com/b93e5b0d43ea306310a379971e384964acbe4990ce193c0bd50078275a9a657d/cheddar-42620/cheddarweblive/cheddar/index.m3u8
 #EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📰 أخبار",DW العربية
 https://dwamdstream103.akamaized.net/hls/live/2015526/dwstream103/index.m3u8
-#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📰 أخبار",Euronews Bulgaria Ⓨ
+#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",Euronews Bulgaria Ⓨ
 https://www.youtube.com/channel/UCU1i6qBMjY9El6q5L2OK8hA/live
-#EXTINF:-1 tvg-logo="https://i.ibb.co/m4tvbmp/inewsar.png" group-title="📰 أخبار",INEWS IQ
+#EXTINF:-1 tvg-logo="https://i.ibb.co/m4tvbmp/inewsar.png" group-title="📦 أخرى",INEWS IQ
 https://live.i-news.tv/hls/stream.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/tMLDMdy/kwttv.png" group-title="📰 أخبار",KUWAIT TV NEWS
+#EXTINF:-1 tvg-logo="https://i.ibb.co/tMLDMdy/kwttv.png" group-title="📦 أخرى",KUWAIT TV NEWS
 https://kwtktvata.cdn.mangomolo.com/ktva/smil:ktva.stream.smil/chunklist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/GkjLyFv/la1ereom.png" group-title="📰 أخبار",LA 1ÈRE MARTINIQUE (news only)
+#EXTINF:-1 tvg-logo="https://i.ibb.co/GkjLyFv/la1ereom.png" group-title="📦 أخرى",LA 1ÈRE MARTINIQUE (news only)
 https://raw.githubusercontent.com/ipstreet312/freeiptv/master/ressources/ftv/py/fr1marm.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/84HtHzK/Roya-TV.png" group-title="📰 أخبار",ROYA NEWS
+#EXTINF:-1 tvg-logo="https://i.ibb.co/84HtHzK/Roya-TV.png" group-title="📦 أخرى",ROYA NEWS
 https://raw.githubusercontent.com/MassinDV/Youtube-arabic-channels/main/live/ch39.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/dGjByMq/Sky-News-Arabia.png" group-title="📰 أخبار",SKY NEWS ARABIA
+#EXTINF:-1 tvg-logo="https://i.ibb.co/dGjByMq/Sky-News-Arabia.png" group-title="📦 أخرى",SKY NEWS ARABIA
 https://stream.skynewsarabia.com/hls/sna.m3u8
-#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📰 أخبار",Sky News Arabia
+#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",Sky News Arabia
 https://stream.skynewsarabia.com/hls/sna.m3u8
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/5/57/Sky_News_logo.svg/512px-Sky_News_logo.svg.png" group-title="📰 أخبار",Sky News العربية
 https://stream.skynewsarabia.com/hls/sna.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/j68q1Bp/i24.png" group-title="📰 أخبار",i24 NEWS AR
+#EXTINF:-1 tvg-logo="https://i.ibb.co/j68q1Bp/i24.png" group-title="📦 أخرى",i24 NEWS AR
 https://bcovlive-a.akamaihd.net/95116e8d79524d87bf3ac20ba04241e3/eu-central-1/5377161796001/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/sw6tV5W/alhadath.jpg" group-title="📰 أخبار",العربية الحدث
+#EXTINF:-1 tvg-logo="https://i.ibb.co/sw6tV5W/alhadath.jpg" group-title="📦 أخرى",العربية الحدث
 https://av.alarabiya.net/alarabiapublish/alhadath.smil/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://admango.cdn.mangomolo.com/analytics/uploads/195/669d088c70.png" group-title="📰 أخبار",الكويت أخبار
+#EXTINF:-1 tvg-logo="https://admango.cdn.mangomolo.com/analytics/uploads/195/669d088c70.png" group-title="📦 أخرى",الكويت أخبار
 https://kwtsplta.cdn.mangomolo.com/kb/smil:kb.stream.smil/chunklist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/Zxd0j45/cartoonnetwork.png" group-title="👶 أطفال",CARTOON NETWORK AR [down]
+#EXTINF:-1 tvg-logo="https://i.ibb.co/Zxd0j45/cartoonnetwork.png" group-title="📦 أخرى",CARTOON NETWORK AR [down]
 https://shls-cartoon-net-prod-dub.shahid.net/out/v1/dc4aa87372374325a66be458f29eab0f/index.m3u8
-#EXTINF:-1 tvg-logo="https://cncdn.dmti.cloud/4870486cf3ad9290b4ace5cd2b81d931eac1aefe/static/media/cn-logo-short.1e292202.svg" group-title="👶 أطفال",Cartoon Network Arabia
+#EXTINF:-1 tvg-logo="https://cncdn.dmti.cloud/4870486cf3ad9290b4ace5cd2b81d931eac1aefe/static/media/cn-logo-short.1e292202.svg" group-title="📦 أخرى",Cartoon Network Arabia
 https://shls-cartoon-net-prod-dub.shahid.net/out/v1/dc4aa87372374325a66be458f29eab0f/index.m3u8
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/b/bb/Cartoon_Network_Arabic_logo.png" group-title="👶 أطفال",Cartoon Network Arabic
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/b/bb/Cartoon_Network_Arabic_logo.png" group-title="📦 أخرى",Cartoon Network Arabic
 https://shls-cartoon-net-prod-dub.shahid.net/out/v1/dc4aa87372374325a66be458f29eab0f/index.m3u8
-#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="👶 أطفال",أطفال و مواهب
+#EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",أطفال و مواهب
 https://5d658d7e9f562.streamlock.net/atfal1.com/atfal2/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",12 Tv Parma
 https://5929b138b139d.streamlock.net/12TVParma/livestream/playlist.m3u8
@@ -245,7 +245,7 @@ https://raw.githubusercontent.com/ipstreet312/freeiptv/refs/heads/master/ressour
 https://tsw.streamingwebtv24.it:1936/artenetwork/artenetwork/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://i.ibb.co/tmkv6RC/armflag.png" group-title="📦 أخرى",ARTN SHANT
 https://streamer1.connectto.com/ARTN_mobile/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/Gxn4XrB/assadissa.png" group-title="📦 أخرى",ASSADISSA القرآن الكريم
+#EXTINF:-1 tvg-logo="https://i.ibb.co/Gxn4XrB/assadissa.png" group-title="🕋 قرآن كريم",ASSADISSA القرآن الكريم
 https://cdn.live.easybroadcast.io/abr_corp/73_assadissa_7b7u5n1/playlist_dvr.m3u8
 #EXTINF:-1 tvg-logo="https://i.ibb.co/5TZPHf6/atfal.jpg" group-title="📦 أخرى",ATFAL
 https://5d658d7e9f562.streamlock.net/atfal1.com/atfal2/playlist.m3u8
@@ -289,7 +289,7 @@ https://cdn.live.easybroadcast.io/abr_corp/73_arryadia_k2tgcj0/playlist_dvr.m3u8
 https://tsw.streamingwebtv24.it:1936/artenetwork/artenetwork/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",Aryen TV
 https://aryen.tv/live/tv/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/Vjjy179/quran.png" group-title="📦 أخرى",Assadissa القرآن الكريم
+#EXTINF:-1 tvg-logo="https://i.ibb.co/Vjjy179/quran.png" group-title="🕋 قرآن كريم",Assadissa القرآن الكريم
 https://cdn.live.easybroadcast.io/abr_corp/73_assadissa_7b7u5n1/playlist_dvr.m3u8
 #EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",Aurora Arte
 https://59d7d6f47d7fc.streamlock.net/auroraarte/auroraarte/playlist.m3u8
@@ -297,7 +297,7 @@ https://59d7d6f47d7fc.streamlock.net/auroraarte/auroraarte/playlist.m3u8
 http://live.azstartv.com/azstar/smil:azstar.smil/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://i.ibb.co/Tm8bZHc/bsmart.png" group-title="📦 أخرى",B SMART
 https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/bsmart.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/cygNtwH/bahrain-quaran.png" group-title="📦 أخرى",BAHRAIN QURAN
+#EXTINF:-1 tvg-logo="https://i.ibb.co/cygNtwH/bahrain-quaran.png" group-title="🕋 قرآن كريم",BAHRAIN QURAN
 https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://i.ibb.co/HCZGRZk/bahraintv.png" group-title="📦 أخرى",BAHRAIN TV
 https://5c7b683162943.streamlock.net/live/ngrp:bahraintvmain_all/playlist.m3u8
@@ -631,9 +631,9 @@ https://jukin-peopleareawesome-2-it.samsung.wurl.tv/playlist.m3u8
 https://qatartv.akamaized.net/hls/live/2026573/qtv1/master.m3u8
 #EXTINF:-1 tvg-logo="https://i.ibb.co/y4qNK42/qattv2.png" group-title="📦 أخرى",QATAR TV 2
 https://qatartv.akamaized.net/hls/live/2026574/qtv2/master.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/GnfgKbs/alquran.png" group-title="📦 أخرى",QURAN
+#EXTINF:-1 tvg-logo="https://i.ibb.co/GnfgKbs/alquran.png" group-title="🕋 قرآن كريم",QURAN
 http://m.live.net.sa:1935/live/quran/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/f0cKj4S/kareem.jpg" group-title="📦 أخرى",QURAN KAREEM TV
+#EXTINF:-1 tvg-logo="https://i.ibb.co/f0cKj4S/kareem.jpg" group-title="🕋 قرآن كريم",QURAN KAREEM TV
 https://al-ekhbaria-prod-dub.shahid.net/out/v1/9885cab0a3ec4008b53bae57a27ca76b/index.m3u8
 #EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",Qatar Television
 https://qatartv.akamaized.net/hls/live/2026573/qtv1/master.m3u8
@@ -677,7 +677,7 @@ https://shls-masr2-ak.akamaized.net/out/v1/5ae66b453b62403199811ab78da9982a/inde
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-ksa-now/71ed3aa814c643306c0a8bc4fcc7d17f/index.m3u8
 #EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",SBC Saudi Arabia
 https://sbc-prod-dub-ak.akamaized.net/out/v1/2eb1ad0f29984a339bc0fce4ce94dcbb/index.m3u8
-#EXTINF:-1 tvg-logo="https://i.ibb.co/2qdGPCh/Sharjahtvquran.png" group-title="📦 أخرى",SHARJAH QURAN
+#EXTINF:-1 tvg-logo="https://i.ibb.co/2qdGPCh/Sharjahtvquran.png" group-title="🕋 قرآن كريم",SHARJAH QURAN
 https://live.kwikmotion.com/sharjahtvquranlive/shqurantv.smil/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://i.ibb.co/nnQnFjg/sharjahtv.png" group-title="📦 أخرى",SHARJAH TV
 https://svs.itworkscdn.net/smc1live/smc1.smil/playlist.m3u8
@@ -707,7 +707,7 @@ https://svs.itworkscdn.net/syriatvlive/syriatv.smil/playlist.m3u8
 https://live.kwikmotion.com/syriatv02live/syriatv02.smil/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://via.placeholder.com/100x100?text=Logo" group-title="📦 أخرى",Sanctuary – Pluto TV
 https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/63eb57d6c111bc0008fe2658/master.m3u8?deviceId=channel&deviceModel=web&deviceVersion=1.0&appVersion=1.0&deviceType=rokuChannel&deviceMake=rokuChannel&deviceDNT=1&advertisingId=channel&embedPartner=rokuChannel&appName=rokuchannel&is_lat=1&bmodel=bm1&content=channel&platform=web&tags=ROKU_CONTENT_TAGS&coppa=false&content_type=livefeed&rdid=channel&genre=ROKU_ADS_CONTENT_GENRE&content_rating=ROKU_ADS_CONTENT_RATING&studio_id=viacom&channel_id=channel
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Sharq_TV_Logo_2020.jpg/440px-Sharq_TV_Logo_2020.jpg" group-title="📦 أخرى",Sharq Radio TV (1080p)
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Sharq_TV_Logo_2020.jpg/440px-Sharq_TV_Logo_2020.jpg" group-title="📺 منوعات",Sharq Radio TV (1080p)
 https://59nyqa5elwap-hls-live.5centscdn.com/Sharq/eec89088ee408b80387155272b113256.sdp/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Star_Channel_2020.svg/640px-Star_Channel_2020.svg.png" group-title="📦 أخرى",Star Channel Finland
 https://live-fi.tvkaista.net/star-channel/live.m3u8?src=freetv
@@ -813,7 +813,7 @@ https://alaraby.cdn.octivid.com/alaraby2n/smil:alaraby2n.stream.smil/chunklist.m
 https://live.alarabiya.net/alarabiapublish/alarabiya.smil/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://vid.alarabiya.net/images/2023/10/27/62f548e2-46ca-470b-93a9-c9f80deefef9/62f548e2-46ca-470b-93a9-c9f80deefef9_16x9_1200x676.jpg?width=1120&format=jpg" group-title="📦 أخرى",العربية Buisness
 https://live.alarabiya.net/alarabiapublish/aswaaq.smil/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://aloula.faulio.com/storage/mediagallery/d3/41/small_31890d483ad4fcf4b142406c9cfa1cb16ca0ddb6.png" group-title="📦 أخرى",القرآن الكريم
+#EXTINF:-1 tvg-logo="https://aloula.faulio.com/storage/mediagallery/d3/41/small_31890d483ad4fcf4b142406c9cfa1cb16ca0ddb6.png" group-title="🕋 قرآن كريم",القرآن الكريم
 https://al-ekhbaria-prod-dub.shahid.net/out/v1/9885cab0a3ec4008b53bae57a27ca76b/index.m3u8
 #EXTINF:-1 tvg-logo="https://admango.cdn.mangomolo.com/analytics/uploads/195/669d09bfb4.png" group-title="📦 أخرى",الكويت العربي
 https://kwtktvata.cdn.mangomolo.com/ktva/smil:tktva.stream.smil/chunklist.m3u8
