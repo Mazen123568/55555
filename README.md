@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تشغيل البث في VLC</title>
+  <script>
+    window.onload = function() {
+      const streamUrl = 'https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8';
+      const vlcUrl = 'vlc-x-callback://x-callback-url/stream?url=' + encodeURIComponent(streamUrl);
+      const playStoreUrl = 'https://play.google.com/store/apps/details?id=org.videolan.vlc';
+
+      // محاولة فتح تطبيق VLC
+      window.location.href = vlcUrl;
+
+      // إذا لم يفتح التطبيق خلال 2 ثانية، تحويل المستخدم إلى متجر التطبيقات
+      setTimeout(function() {
+        window.location.href = playStoreUrl;
+      }, 2000);
+    };
+  </script>
+</head>
+<body style="background:#000;color:#fff;text-align:center;font-family:sans-serif;">
+  <h2>🎬 جاري تشغيل البث في VLC...</h2>
+  <p>إذا لم يفتح التطبيق تلقائيًا، سيتم تحويلك إلى متجر التطبيقات لتثبيته.</p>
+</body>
+</html>
