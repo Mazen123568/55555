@@ -1,46 +1,21 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>تشغيل البث - MX Player</title>
-  <style>
-    body { background:#0d0d0d; color:#fff; font-family:'Cairo',sans-serif; text-align:center; padding:40px; }
-    button {
-      background:linear-gradient(90deg,#00ffd1,#0072ff);
-      border:none; border-radius:30px;
-      padding:15px 35px; font-size:18px; font-weight:bold;
-      color:#000; cursor:pointer; transition:0.3s;
-    }
-    button:hover { transform:scale(1.05); box-shadow:0 0 15px #00ffd1; }
-    .note { color:#ccc; margin-top:15px; font-size:14px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فتح البث</title>
 </head>
-<body>
+<body style="font-family:sans-serif;text-align:center;">
+  <h3>افتح الرابط في تطبيق VLC</h3>
+  <a href="vlc://https://shls-live-enc.edgenextcdn.net/out/v1/b0b3a0e6750d4408bb86d703d5feffd1/index_24.m3u8">
+    اضغط هنا لتشغيل البث في VLC
+  </a>
 
-<h2>🎬 تشغيل البث عبر MX Player</h2>
-<p>اضغط الزر لتشغيل البث مباشرة في تطبيق MX Player</p>
-
-<button onclick="openMX()">تشغيل البث</button>
-
-<p class="note">إذا لم يفتح التطبيق تلقائيًا، سيتم تحويلك إلى متجر Google Play لتحميله.</p>
-
-<script>
-function openMX() {
-  const stream = "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8";
-  const tempUrl = stream + (stream.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
-  const mxUrl = "mxplayer://play?url=" + encodeURIComponent(tempUrl);
-  const playStoreUrl = "https://play.google.com/store/apps/details?id=com.mxtech.videoplayer.ad";
-
-  // فتح التطبيق
-  window.location.href = mxUrl;
-
-  // إذا لم يُفتح التطبيق خلال ثانيتين → الانتقال إلى المتجر
-  setTimeout(() => {
-    window.location.href = playStoreUrl;
-  }, 2000);
-}
-</script>
-
+  <script>
+    // في حال دعم التطبيق لبروتوكول intent://
+    function openVLC() {
+      window.location.href = "intent://https://shls-live-enc.edgenextcdn.net/out/v1/b0b3a0e6750d4408bb86d703d5feffd1/index_24.m3u8#Intent;scheme=http;package=org.videolan.vlc;end";
+    }
+  </script>
 </body>
 </html>
