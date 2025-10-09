@@ -1,524 +1,172 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>تشغيل البث — اختيار القناة</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مشغل القنوات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg1: #050608;
-      --accent: #00ffd1;
-      --muted: #9aa6b2;
-      --card: #0b0c0f;
-    }
-    *{box-sizing:border-box}
-    body{
-      font-family: 'Cairo', sans-serif;
-      margin:0;
+    body {
       background: radial-gradient(circle at top, #0a0a0a, #000);
-      color:#fff;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
+      text-align: center;
+      padding: 50px 20px;
     }
-    .app {
-      width:100%;
-      max-width:980px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:14px;
-      padding:22px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    }
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:12px;
-    }
-    header h1{
-      margin:0;
-      font-size:20px;
-      color:var(--accent);
-      text-shadow:0 0 10px rgba(0,255,209,0.08);
-    }
-    header .subtitle{color:var(--muted); font-size:13px}
-    .pages>section{display:none}
-    .pages>section.active{display:block}
 
-    /* cards */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-      gap:12px;
+    h2 {
+      color: #00ffd1;
+      text-shadow: 0 0 10px #00ffd1;
     }
-    .card{
-      background:var(--card);
-      border-radius:12px;
-      padding:12px;
-      text-align:right;
-      border:1px solid rgba(255,255,255,0.02);
-    }
-    .card h3{margin:0 0 6px 0; font-size:16px; color:#fff}
-    .card p{margin:0; color:var(--muted); font-size:13px}
 
-    /* channel list */
-    .channels-list{max-height:420px; overflow:auto; margin-top:10px; padding-right:6px}
-    .channel-btn{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-      width:100%;
-      padding:12px 14px;
-      margin:6px 0;
-      border-radius:12px;
-      background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-      border:1px solid rgba(255,255,255,0.02);
-      cursor:pointer;
-      transition:transform .12s, box-shadow .12s;
-    }
-    .channel-btn:hover{ transform:translateY(-3px); box-shadow:0 10px 30px rgba(0,0,0,0.6) }
-    .channel-title{ text-align:right; font-weight:600 }
-    .channel-meta{ font-size:12px; color:var(--muted) }
-
-    /* player */
-    .player {
-      background: #060607;
-      border-radius:12px;
-      padding:14px;
-      margin-top:10px;
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    .controls{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px }
-    button.btn {
+    button {
+      background: linear-gradient(135deg, #00ffd1, #0072ff);
       border: none;
-      padding:10px 14px;
-      border-radius:999px;
-      cursor:pointer;
-      font-weight:600;
-      background:linear-gradient(90deg, #00ffd1, #0072ff);
-      color:#000;
-      transition:transform .12s, opacity .12s;
-    }
-    button.btn.secondary{
-      background:transparent;
-      color:var(--accent);
-      border:1px solid rgba(0,255,209,0.12);
-    }
-    button.btn.ghost{
-      background:transparent;
-      border:1px dashed rgba(255,255,255,0.03);
-      color:var(--muted);
-    }
-    .note{ margin-top:10px; color:var(--muted); font-size:13px }
-
-    /* top small controls */
-    .top-controls{ display:flex; gap:8px; align-items:center }
-    .back{
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.03);
-      padding:8px 10px;border-radius:10px;color:var(--muted);cursor:pointer
+      border-radius: 40px;
+      padding: 16px 40px;
+      font-size: 18px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      margin: 10px;
     }
 
-    /* small form */
-    .add-row{ display:flex; gap:8px; margin-top:10px }
-    .add-row input{
-      flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:#fff
+    button:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 25px #00ffd1;
     }
 
-    /* responsive */
-    @media (max-width:520px){
-      header h1{font-size:16px}
-      .grid{grid-template-columns:1fr}
+    section { display: none; }
+    .active { display: block; }
+
+    .note {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    .install-link {
+      display: none;
+      margin-top: 15px;
+      color: #00ffd1;
+      font-weight: bold;
+      text-decoration: none;
+      border: 1px solid #00ffd1;
+      padding: 10px 20px;
+      border-radius: 25px;
+      transition: 0.3s;
+    }
+
+    .install-link:hover {
+      background: #00ffd1;
+      color: #000;
     }
   </style>
 </head>
 <body>
-  <div class="app" role="application" aria-label="قائمة تشغيل">
-    <header>
-      <div>
-        <h1>🎬 تشغيل البث — Radio</h1>
-        <div class="subtitle">اختر التصنيف ثم القناة ثم المشغل</div>
-      </div>
-      <div class="top-controls">
-        <button id="homeBtn" class="back" title="الرئيسية">الرئيسية</button>
-        <button id="favoritesBtn" class="back" title="المفضلة">المفضلة</button>
-      </div>
-    </header>
 
-    <div class="pages">
-      <!-- الصفحة 1: اختيار التصنيف -->
-      <section id="page-categories" class="active" aria-hidden="false">
-        <div class="grid">
-          <div class="card">
-            <h3>قنوات إخبارية</h3>
-            <p>قنوات البث المباشر للأخبار</p>
-            <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end">
-              <button class="btn secondary" onclick="openCategory('news')">فتح</button>
-            </div>
-          </div>
-          <div class="card">
-            <h3>محطات إذاعية</h3>
-            <p>راديو وموسيقى وبرامج</p>
-            <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end">
-              <button class="btn secondary" onclick="openCategory('radio')">فتح</button>
-            </div>
-          </div>
-          <div class="card">
-            <h3>أفلام ومسلسلات</h3>
-            <p>قنوات أفلام ومسلسلات</p>
-            <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end">
-              <button class="btn secondary" onclick="openCategory('movies')">فتح</button>
-            </div>
-          </div>
-          <div class="card">
-            <h3>مفضلاتي</h3>
-            <p>قنوات أضفتها للمفضلة</p>
-            <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end">
-              <button class="btn secondary" onclick="openCategory('favorites')">فتح</button>
-            </div>
-          </div>
-        </div>
+  <!-- الصفحة 1: الرئيسية -->
+  <section id="page1" class="active">
+    <h2>🎬 البث المباشر</h2>
+    <p>اضغط للانتقال إلى مجموعات القنوات</p>
+    <button onclick="showPage('page2')">📺 عرض المجموعات</button>
+  </section>
 
-        <div class="note">يمكنك إضافة قناة يدوياً في صفحة القنوات.</div>
-      </section>
+  <!-- الصفحة 2: مجموعات القنوات -->
+  <section id="page2">
+    <h2>📚 مجموعات القنوات</h2>
+    <button onclick="selectGroup('sports')">⚽ رياضية</button>
+    <button onclick="selectGroup('news')">📰 إخبارية</button>
+    <button onclick="selectGroup('kids')">🎈 أطفال</button>
+    <button onclick="showPage('page1')">🔙 رجوع</button>
+  </section>
 
-      <!-- الصفحة 2: قائمة القنوات -->
-      <section id="page-channels" aria-hidden="true">
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px">
-          <div>
-            <button class="back" onclick="goBack()">⬅ رجوع</button>
-          </div>
-          <div style="text-align:left">
-            <input id="searchInput" placeholder="بحث عن قناة ..." style="padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:#fff" />
-          </div>
-        </div>
+  <!-- الصفحة 3: القنوات داخل المجموعة -->
+  <section id="page3">
+    <h2 id="groupTitle"></h2>
+    <div id="channels"></div>
+    <button onclick="showPage('page2')">🔙 رجوع</button>
+  </section>
 
-        <div class="channels-list" id="channelsContainer" aria-live="polite"></div>
-
-        <div class="add-row">
-          <input id="customTitle" placeholder="اسم القناة (مثال: Radio Cafe)" />
-          <input id="customUrl" placeholder="رابط البث (m3u8 أو mp3 أو http)" />
-          <button class="btn" onclick="addCustomChannel()">أضف قناة</button>
-        </div>
-        <div class="note">اضغط على أي قناة للانتقال لصفحة المشغل.</div>
-      </section>
-
-      <!-- الصفحة 3: المشغل و الأزرار -->
-      <section id="page-player" aria-hidden="true">
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px">
-          <div>
-            <button class="back" onclick="goBack()">⬅ رجوع</button>
-          </div>
-          <div style="text-align:left">
-            <strong id="playerTitle">—</strong>
-            <div style="font-size:12px; color:var(--muted)" id="playerUrl"></div>
-          </div>
-        </div>
-
-        <div class="player">
-          <!-- مشغل مدمج (قد لا يعمل مع m3u8 على متصفحات تخضع للدعم) -->
-          <div id="embeddedPlayerWrap" style="margin-top:8px">
-            <video id="embeddedPlayer" controls playsinline style="width:100%; border-radius:8px; background:#000">
-              <!-- source يتم ضبطه ديناميكياً -->
-              متصفحك لا يدعم عنصر الفيديو لعرض البث.
-            </video>
-          </div>
-
-          <div class="controls" role="toolbar" aria-label="أزرار المشغل">
-            <button class="btn" onclick="openInVLC(currentStreamUrl)">تشغيل في VLC</button>
-            <button class="btn secondary" onclick="playEmbedded()">تشغيل بالمشغل المدمج</button>
-            <button class="btn secondary" onclick="openInNewTab()">فتح في نافذة جديدة</button>
-            <button class="btn ghost" onclick="copyLink()">نسخ الرابط</button>
-            <button class="btn ghost" onclick="toggleFavorite()"><span id="favLabel">أضف للمفضلة</span></button>
-            <button class="btn ghost" onclick="shareWhatsApp()">مشاركة (واتساب)</button>
-          </div>
-
-          <div class="note" id="playerNote">ملاحظة: بعض الروابط (m3u8) تحتاج مشغل يدعم HLS على الجهاز أو متصفح يدعم HLS. على أندرويد تعمل خاصية Intent مع VLC.</div>
-        </div>
-
-      </section>
-    </div>
-
-  </div>
+  <div class="note" id="note"></div>
+  <a id="installLink" class="install-link" target="_blank">تحميل VLC</a>
 
   <script>
-    // بيانات تجريبية للقنوات (أضف أو عدّل كما تريد)
-    const allChannels = {
-      news: [
-        { title: "قناة الأخبار 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8", meta: "HD | مباشر" },
-        { title: "قناة الأخبار 2", url: "https://playstop.watch:2095/live/radiocafe144/Yg2nL9TwVntwTTM/1.m3u8", meta: "SD | مباشر" },
-        { title: "قناة الأخبار 3", url: "https://example.com/stream/news3.m3u8", meta: "اختباري" },
-      ],
-      radio: [
-        { title: "Radio Cafe", url: "http://stream.radiocafe.example/stream.mp3", meta: "راديو مباشر" },
-        { title: "محطة موسيقى", url: "https://example.com/stream/music.m3u8", meta: "موسيقى" },
-        { title: "إذاعة القرآن", url: "https://example.org/quran/playlist.m3u8", meta: "قرآن كريم" },
-      ],
-      movies: [
-        { title: "قناة أفلام 1", url: "https://example.com/movies/1/index.m3u8", meta: "أفلام" },
-        { title: "قناة أفلام 2", url: "https://example.com/movies/2/index.m3u8", meta: "أفلام HD" },
-      ],
-      favorites: [] // سيملأ تلقائياً
-    };
-
-    // حالة حالية
-    let currentCategory = null;
-    let currentStreamUrl = "";
-    let currentTitle = "";
-    const favoritesKey = "my_stream_favorites_v1";
-
-    // helpers للصفحات
     function showPage(id) {
-      document.querySelectorAll('.pages>section').forEach(s=>{
-        s.classList.remove('active');
-        s.setAttribute('aria-hidden','true');
-      });
-      const sec = document.getElementById(id);
-      sec.classList.add('active');
-      sec.setAttribute('aria-hidden','false');
-      window.scrollTo({top:0,behavior:'smooth'});
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
     }
 
-    // ربط أزرار الهيدر
-    document.getElementById('homeBtn').addEventListener('click', ()=> showPage('page-categories'));
-    document.getElementById('favoritesBtn').addEventListener('click', ()=> { openCategory('favorites'); });
+    function selectGroup(group) {
+      showPage('page3');
+      const title = document.getElementById('groupTitle');
+      const list = document.getElementById('channels');
+      list.innerHTML = '';
 
-    function openCategory(cat) {
-      currentCategory = cat;
-      // special: favorites نعرض المفضلة من localStorage
-      renderChannels();
-      showPage('page-channels');
-    }
+      let channels = [];
 
-    function goBack(){
-      // إذا كنا في المشغل نذهب لقائمة القنوات، وإلا للصفحة الرئيسية
-      const player = document.getElementById('page-player');
-      if(player.classList.contains('active')){
-        showPage('page-channels');
-      } else {
-        showPage('page-categories');
-      }
-    }
-
-    // تحميل ومزامنة المفضلة من التخزين المحلي
-    function loadFavorites(){
-      try {
-        const raw = localStorage.getItem(favoritesKey);
-        if(raw) return JSON.parse(raw);
-      } catch(e){ console.warn(e) }
-      return [];
-    }
-    function saveFavorites(list){
-      localStorage.setItem(favoritesKey, JSON.stringify(list));
-    }
-
-    // عرض قائمة القنوات
-    function renderChannels(filter = "") {
-      const container = document.getElementById('channelsContainer');
-      container.innerHTML = "";
-      let list = [];
-      if(currentCategory === 'favorites'){
-        list = loadFavorites();
-      } else if(allChannels[currentCategory]){
-        list = allChannels[currentCategory].slice(); // clone
-      } else {
-        list = [];
+      if (group === 'sports') {
+        title.innerText = '⚽ القنوات الرياضية';
+        channels = [
+          { name: 'Bein Sports 1', url: 'https://example.com/bein1.m3u8' },
+          { name: 'Bein Sports 2', url: 'https://example.com/bein2.m3u8' }
+        ];
+      } else if (group === 'news') {
+        title.innerText = '📰 القنوات الإخبارية';
+        channels = [
+          { name: 'Al Jazeera', url: 'https://example.com/jazeera.m3u8' },
+          { name: 'Sky News', url: 'https://example.com/sky.m3u8' }
+        ];
+      } else if (group === 'kids') {
+        title.innerText = '🎈 قنوات الأطفال';
+        channels = [
+          { name: 'Spacetoon', url: 'https://example.com/spacetoon.m3u8' },
+          { name: 'Toyor Al Janah', url: 'https://example.com/toyor.m3u8' }
+        ];
       }
 
-      // دمج نتائج إضافية إن أردنا
-      // فلترة
-      const q = filter.trim().toLowerCase();
-      if(q){
-        list = list.filter(c => (c.title + " " + (c.meta||"")).toLowerCase().includes(q));
-      }
-
-      if(list.length === 0){
-        container.innerHTML = `<div style="padding:14px; color:var(--muted)">لا توجد قنوات هنا.</div>`;
-        return;
-      }
-
-      list.forEach((ch, idx) => {
-        const el = document.createElement('button');
-        el.className = 'channel-btn';
-        el.innerHTML = `
-          <div style="text-align:right">
-            <div class="channel-title">${ch.title}</div>
-            <div class="channel-meta">${ch.meta || ''}</div>
-          </div>
-          <div style="text-align:left; min-width:140px; display:flex; gap:8px; justify-content:flex-end; align-items:center">
-            <button class="btn ghost" onclick="event.stopPropagation(); playPreview('${escapeHtml(ch.url)}')">معاينة</button>
-            <button class="btn secondary" onclick="event.stopPropagation(); selectChannel(${idx})">فتح</button>
-          </div>
-        `;
-        el.addEventListener('click', ()=> selectChannel(idx));
-        container.appendChild(el);
+      channels.forEach(ch => {
+        const btn = document.createElement('button');
+        btn.textContent = ch.name;
+        btn.onclick = () => openInVLC(ch.url);
+        list.appendChild(btn);
       });
     }
 
-    // البحث المباشر
-    document.getElementById('searchInput').addEventListener('input', (e)=>{
-      renderChannels(e.target.value);
-    });
-
-    // عند اختيار القناة
-    function selectChannel(index){
-      let list = (currentCategory === 'favorites') ? loadFavorites() : allChannels[currentCategory] || [];
-      const ch = list[index];
-      if(!ch) return alert('تعذّر العثور على القناة.');
-      currentStreamUrl = ch.url;
-      currentTitle = ch.title;
-      document.getElementById('playerTitle').innerText = ch.title;
-      document.getElementById('playerUrl').innerText = ch.url;
-      // ضع مصدر في الفيديو المدمج
-      const video = document.getElementById('embeddedPlayer');
-      // نضيف nocache لتفادي الكاش
-      const tempUrl = ch.url + (ch.url.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
-      // أزل المصادر السابقة
-      while(video.firstChild) video.removeChild(video.firstChild);
-      // إن كان mp4 أو mp3 استخدم source مباشرة، أما m3u8 فنجرب إضافته (يتطلب HLS أو متصفح يدعمه)
-      const source = document.createElement('source');
-      source.src = tempUrl;
-      // نوع مبدئي
-      if(/\.(mp4|m4v|webm)(\?|$)/i.test(ch.url)) source.type = 'video/mp4';
-      else if(/\.(mp3|aac|m4a)(\?|$)/i.test(ch.url)) source.type = 'audio/mpeg';
-      else source.type = 'application/vnd.apple.mpegurl';
-      video.appendChild(source);
-      video.load(); // محاولة التحميل
-      showPage('page-player');
-    }
-
-    // معاينة تشغيل مبسّط (يفتح المشغل المدمج غير الكامل)
-    function playPreview(url){
-      currentStreamUrl = url;
-      currentTitle = "معاينة";
-      document.getElementById('playerTitle').innerText = 'معاينة البث';
-      document.getElementById('playerUrl').innerText = url;
-      const video = document.getElementById('embeddedPlayer');
-      while(video.firstChild) video.removeChild(video.firstChild);
-      const source = document.createElement('source');
-      source.src = url + (url.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
-      source.type = 'application/vnd.apple.mpegurl';
-      video.appendChild(source);
-      video.load();
-      // لا نتحول لصفحة المشغل تلقائياً، لكن يمكنك الضغط "تشغيل بالمشغل المدمج"
-    }
-
-    // إضافة قناة يدويًا للقائمة الحالية
-    function addCustomChannel(){
-      const title = document.getElementById('customTitle').value.trim();
-      const url = document.getElementById('customUrl').value.trim();
-      if(!title || !url) return alert('أدخل اسم القناة والرابط.');
-      // نضيف للقائمة الحالية (إذا favorites نضيف للمفضلة بدلاً)
-      if(currentCategory === 'favorites'){
-        const favs = loadFavorites();
-        favs.push({ title, url, meta: 'مضاف يدوياً' });
-        saveFavorites(favs);
-      } else {
-        if(!allChannels[currentCategory]) allChannels[currentCategory] = [];
-        allChannels[currentCategory].push({ title, url, meta: 'مضاف يدوياً' });
-      }
-      document.getElementById('customTitle').value = '';
-      document.getElementById('customUrl').value = '';
-      renderChannels();
-    }
-
-    // وظائف المشغلات والأزرار الإضافية
-    function openInVLC(streamUrl){
-      if(!streamUrl) return alert('لا يوجد رابط للاشتغال.');
-      const ua = navigator.userAgent || '';
+    function openInVLC(streamUrl) {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
       const tempUrl = streamUrl + (streamUrl.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
-      let target = '', download = '';
-      if(/android/i.test(ua)){
-        target = `intent://${tempUrl.replace(/^https?:\/\//,'')}#Intent;scheme=http;package=org.videolan.vlc;end`;
-        download = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
-      } else if(/iPad|iPhone|iPod/.test(ua) && !window.MSStream){
-        target = `vlc-x-callback://x-callback-url/stream?url=${encodeURIComponent(tempUrl)}`;
-        download = "https://apps.apple.com/app/vlc-for-mobile/id650377962";
+      const note = document.getElementById("note");
+      const installLink = document.getElementById("installLink");
+      installLink.style.display = "none";
+
+      let targetUrl = "";
+      let downloadUrl = "";
+
+      if (/android/i.test(userAgent)) {
+        targetUrl = `intent://${tempUrl.replace(/^https?:\/\//, '')}#Intent;scheme=http;package=org.videolan.vlc;end`;
+        downloadUrl = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
+      } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        targetUrl = `vlc-x-callback://x-callback-url/stream?url=${encodeURIComponent(tempUrl)}`;
+        downloadUrl = "https://apps.apple.com/app/vlc-for-mobile/id650377962";
       } else {
-        // سطح المكتب
-        target = `vlc://${tempUrl}`;
-        download = "https://www.videolan.org/vlc/";
+        targetUrl = `vlc://${tempUrl}`;
+        downloadUrl = "https://www.videolan.org/vlc/";
       }
-      // حاول الفتح
-      window.location.href = target;
-      // بعد قليل أظهر رابط التحميل
-      setTimeout(()=>{
-        if(confirm('إذا لم يُفتح VLC، هل تريد الذهاب إلى صفحة تحميل VLC؟')) {
-          window.open(download, '_blank');
-        }
-      }, 1800);
-    }
 
-    function playEmbedded(){
-      const video = document.getElementById('embeddedPlayer');
-      if(!currentStreamUrl){
-        alert('اختر قناة أولاً.');
-        return;
-      }
-      // محاولة تشغيل
-      video.play().catch(err=>{
-        console.warn(err);
-        alert('المتصفح رفض التشغيل التلقائي. اضغط زر التشغيل داخل المشغل أو جرّب "تشغيل في VLC".');
-      });
-    }
+      window.location.href = targetUrl;
 
-    function openInNewTab(){
-      if(!currentStreamUrl) return alert('اختر قناة أولاً.');
-      window.open(currentStreamUrl, '_blank');
-    }
-
-    function copyLink(){
-      if(!currentStreamUrl) return alert('اختر قناة أولاً.');
-      navigator.clipboard?.writeText(currentStreamUrl).then(()=>{
-        alert('تم نسخ الرابط إلى الحافظة.');
-      }).catch(()=>{
-        prompt('انسخ الرابط يدوياً:', currentStreamUrl);
-      });
-    }
-
-    function toggleFavorite(){
-      if(!currentStreamUrl) return alert('اختر قناة أولاً.');
-      const favs = loadFavorites();
-      const exists = favs.find(f => f.url === currentStreamUrl);
-      if(exists){
-        // إزالة
-        const filtered = favs.filter(f => f.url !== currentStreamUrl);
-        saveFavorites(filtered);
-        document.getElementById('favLabel').innerText = 'أضف للمفضلة';
-        alert('تمت إزالة القناة من المفضلة.');
-      } else {
-        favs.push({ title: currentTitle || 'قناة بدون اسم', url: currentStreamUrl, meta: 'مفضلة' });
-        saveFavorites(favs);
-        document.getElementById('favLabel').innerText = 'موجود بالمفضلة';
-        alert('تمت إضافة القناة للمفضلة.');
+      // عرض الرسالة مرة واحدة فقط
+      if (!localStorage.getItem('vlcPromptShown')) {
+        setTimeout(() => {
+          note.innerHTML = "⚠️ إذا لم يتم فتح VLC تلقائيًا، يمكنك تحميله من الرابط أدناه:";
+          installLink.href = downloadUrl;
+          installLink.style.display = "inline-block";
+          localStorage.setItem('vlcPromptShown', 'true');
+        }, 2000);
       }
     }
-
-    function shareWhatsApp(){
-      if(!currentStreamUrl) return alert('اختر قناة أولاً.');
-      const text = encodeURIComponent(`${currentTitle}\n${currentStreamUrl}`);
-      const url = `https://wa.me/?text=${text}`;
-      window.open(url, '_blank');
-    }
-
-    // مساعدة: هروب للمسارات داخل خصائص HTML
-    function escapeHtml(s){ return s.replace(/'/g, "\\'").replace(/"/g, '\\"'); }
-    // تحميل المبدئي لقائمة القنوات (عرض التصنيف الافتراضي news)
-    (function init(){
-      // انشئ بعض القنوات الإضافية تلقائياً ليشاهد المستخدم 'المزيد من الأزرار'
-      for(let i=1;i<=12;i++){
-        allChannels.radio.push({ title: `محطة موسيقى ${i}`, url: `https://example.com/radio/stream${i}.mp3`, meta: 'راديو' });
-      }
-      renderChannels(); // في البداية لا نعرض شيء إلا بعد اختيار تصنيف
-    })();
-
-    // عند فتح صفحة القنوات فعليًا (لو مرّ المستخدم من main مباشرة)
-    // نترك واجهة المستخدم تتحكم بعرض القنوات عبر openCategory(...)
   </script>
 
 </body>
