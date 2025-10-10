@@ -190,62 +190,31 @@
       });
     }
 
-    // تعديل التشغيل ليحاول داخليًا ثم VLC خارجي إذا فشل
     function checkAndPlayChannel(url) {
       spinner.classList.remove("hidden");
       fetch(url, { method: 'HEAD' })
-        .then(res => {
-          if (res.ok) {
-            playChannel(url).catch(() => openInVLC(url));
-          } else {
-            openInVLC(url);
-          }
-        })
-        .catch(() => openInVLC(url))
+        .then(res => res.ok ? playChannel(url) : alert('❌ الرابط غير صالح'))
+        .catch(() => alert('❌ تعذر التحقق من الرابط'))
         .finally(() => spinner.classList.add("hidden"));
     }
 
     function playChannel(url) {
-      return new Promise((resolve, reject) => {
-        try {
-          if (Hls.isSupported()) {
-            if (window.hls) window.hls.destroy();
-            const hls = new Hls();
-            hls.loadSource(url);
-            hls.attachMedia(video);
-            window.hls = hls;
-          } else {
-            video.src = url;
-          }
-          video.play()
-            .then(() => {
-              document.getElementById('startSound').play().catch(() => {});
-              lastChannelUrl = url;
-              document.getElementById('playerContainer').classList.remove('hidden');
-              document.getElementById('channelGroups').classList.add('hidden');
-              document.getElementById('playerContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
-              resolve();
-            })
-            .catch(err => reject(err));
-        } catch (e) {
-          reject(e);
-        }
-      });
+      if (Hls.isSupported()) {
+        if (window.hls) window.hls.destroy();
+        const hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
+        window.hls = hls;
+      } else {
+        video.src = url;
+      }
+      video.play();
+      document.getElementById('startSound').play().catch(() => {});
+      lastChannelUrl = url;
+      document.getElementById('playerContainer').classList.remove('hidden');
+      document.getElementById('channelGroups').classList.add('hidden');
+      document.getElementById('playerContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-
-    function openInVLC(url) {
-  const vlcUrl = `vlc://${url}`;
-  const newWindow = window.open(vlcUrl, '_blank');
-
-  if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
-    // عرض رسالة مع رابط مباشر لتحميل VLC
-    if (confirm('❌ لم يتم العثور على مشغل VLC.\nهل تريد تحميل VLC الآن؟')) {
-      // رابط مباشر لتحميل VLC على Android
-      window.location.href = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
-    }
-  }
-}
-
 
     function closePlayer() {
       if (window.hls) window.hls.destroy();
@@ -380,10 +349,49 @@
       }
     };
     
+    
+    
+    
     categoryBtn.addEventListener('click', () => {
-      categoryMenu.classList.toggle('hidden');
-    });
+  categoryMenu.classList.toggle('hidden');
+});
+
+
+
+
+
+
+
+const vlcPackage = "org.videolan.vlc"; // Package name الخاص بـ VLC
+
+  function openInVLC(url) {
+    // رابط intent لتشغيل القناة في VLC على أندرويد
+    const vlcIntent = `intent:${url}#Intent;package=${vlcPackage};scheme=http;end`;
+    
+    const tempLink = document.createElement('a');
+    tempLink.href = vlcIntent;
+    tempLink.style.display = 'none';
+    document.body.appendChild(tempLink);
+    tempLink.click();
+    document.body.removeChild(tempLink);
+
+    // تحقق بعد 1.5 ثانية إذا لم يتم فتح التطبيق
+    setTimeout(() => {
+      const install = confirm("⚠️ VLC غير مثبت. هل تريد تثبيته من متجر Play؟");
+      if (install) {
+        window.location.href = "https://play.google.com/store/apps/details?id=" + vlcPackage;
+      }
+    }, 1500);
+  }
+
+  function checkAndPlayChannel(url) {
+    openInVLC(url); // كل قناة تُفتح مباشرة من خلال VLC
+  }
+
+  // إلغاء كل الكود الخاص بـ Plyr و HLS.js لأنه لن يستخدم
+  // إزالة playChannel, closePlayer, video.pause() وغيرها
 
   </script>
 </body>
 </html>
+
