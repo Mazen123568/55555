@@ -234,14 +234,18 @@
     }
 
     function openInVLC(url) {
-      const vlcUrl = `vlc://${url}`;
-      const newWindow = window.open(vlcUrl, '_blank');
-      if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
-        alert('❌ لم يتم العثور على مشغل VLC.\nيرجى تحميل VLC أولاً.');
-        // رابط مباشر لتحميل VLC على Android
-        // window.location.href = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
-      }
+  const vlcUrl = `vlc://${url}`;
+  const newWindow = window.open(vlcUrl, '_blank');
+
+  if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+    // عرض رسالة مع رابط مباشر لتحميل VLC
+    if (confirm('❌ لم يتم العثور على مشغل VLC.\nهل تريد تحميل VLC الآن؟')) {
+      // رابط مباشر لتحميل VLC على Android
+      window.location.href = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
     }
+  }
+}
+
 
     function closePlayer() {
       if (window.hls) window.hls.destroy();
