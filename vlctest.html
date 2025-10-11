@@ -14,7 +14,7 @@
     .page { display: none; width: 100%; max-width: 500px; }
     .active { display: block; }
     .list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-    .item { background: #111; padding: 15px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; text-align: center; }
+    .item { background: #111; padding: 15px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .item:hover { background: #00ffd1; color: #000; transform: scale(1.05); }
     button { background: linear-gradient(135deg, #00ffd1, #0072ff); border: none; border-radius: 40px; padding: 14px 30px; font-size: 18px; font-weight: bold; color: #000; cursor: pointer; transition: 0.3s; margin-top: 20px; }
     button:hover { transform: scale(1.07); box-shadow: 0 0 25px #00ffd1; }
@@ -23,7 +23,30 @@
     .install-link:hover { background: #00ffd1; color: #000; }
   </style>
 </head>
+
 <body>
+
+
+
+ <h1>💰 اختبار إعلانات AdMob</h1>
+
+  <button onclick="enableBanner()">تشغيل بانر الإعلان</button>
+  <button onclick="disableBanner()">إخفاء البانر</button>
+  <button onclick="showInterstitial()">عرض إعلان بيني</button>
+  <button onclick="askTracking()">طلب إذن التتبع (iOS)</button>
+  <button onclick="askConsent()">طلب موافقة GDPR</button>
+
+  <div class="log" id="log">Logs:</div>
+
+  <script>
+    // ⚙️ إعداد معرفات AdMob هنا
+    median.admob.configure({
+      appId: "ca-app-pub-3940256099942544~3347511713",
+      bannerId: "ca-app-pub-3940256099942544/2934735716",
+      interstitialId: "ca-app-pub-3940256099942544/1712485313"
+    });
+
+    // بقية الكود السابق هنا (الدوال enableBanner، showInterstitial، إلخ...)
 
   <h1>🎬 مشغل IPTV احترافي</h1>
 
@@ -50,39 +73,35 @@
   </div>
 
   <script>
-    // مثال للمجموعات والقنوات
+    // مثال للمجموعات والقنوات مع أيقونات
     const data = [
       {
         name: "مجموعة رياضية",
         channels: [
-
-          { name: "قناة الرياضية 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" },
-          { name: "قناة الرياضية 2", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" },
-          { name: "قناة الرياضية 3", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" },
-          { name: "قناة الرياضية 4", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" },
-          { name: "قناة الرياضية 5", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" },
-          { name: "قناة الرياضية 6", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" },
-          { name: "قناة الرياضية 7", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" },
-          { name: "قناة الرياضية 8", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" },
-          { name: "قناة الرياضية 9", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" },
-          { name: "قناة الرياضية 10", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" },
-          { name: "قناة الرياضية 11", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" },
-          { name: "قناة الرياضية 12", url: "#" },
-          { name: "قناة الرياضية 13", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_4.m3u8" }
+          { name: "قناة الرياضية 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/soccer-ball.png" },
+          { name: "قناة الرياضية 2", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/basketball.png" },
+          { name: "قناة الرياضية 3", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/tennis.png" },
+          { name: "قناة الرياضية 4", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/volleyball.png" },
+          { name: "قناة الرياضية 5", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/american-football.png" },
+          { name: "قناة الرياضية 6", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/boxing-glove.png" },
+          { name: "قناة الرياضية 7", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/running.png" },
+          { name: "قناة الرياضية 8", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/cycling.png" },
+          { name: "قناة الرياضية 9", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/swimming.png" },
+          { name: "قناة الرياضية 10", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_4.m3u8", icon: "https://img.icons8.com/color/48/000000/golf.png" }
         ]
       },
       {
         name: "مجموعة أفلام",
         channels: [
-          { name: "قناة الأفلام 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_5.m3u8" },
-          { name: "قناة الأفلام 2", url: "" } // مثال قناة بدون رابط
+          { name: "قناة الأفلام 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_5.m3u8", icon: "https://img.icons8.com/color/48/000000/movie.png" },
+          { name: "قناة الأفلام 2", url: "", icon: "https://img.icons8.com/color/48/000000/popcorn.png" }
         ]
       },
       {
         name: "مجموعة أطفال",
         channels: [
-          { name: "قناة الأطفال 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_7.m3u8" },
-          { name: "قناة الأطفال 2", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_8.m3u8" }
+          { name: "قناة الأطفال 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_7.m3u8", icon: "https://img.icons8.com/color/48/000000/kids-room.png" },
+          { name: "قناة الأطفال 2", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_8.m3u8", icon: "https://img.icons8.com/color/48/000000/bear.png" }
         ]
       }
     ];
@@ -115,13 +134,20 @@
       showPage("channelsPage");
     }
 
-    // عرض القنوات
+    // عرض القنوات مع الأيقونات
     function loadChannels() {
       channelsList.innerHTML = "";
       currentGroup.channels.forEach((channel, idx) => {
         const div = document.createElement("div");
         div.className = "item";
-        div.textContent = channel.name;
+
+        let content = "";
+        if(channel.icon){
+          content += `<img src="${channel.icon}" alt="icon" style="width:30px; height:30px; vertical-align:middle; margin-left:10px; border-radius:5px;">`;
+        }
+        content += channel.name;
+        div.innerHTML = content;
+
         div.onclick = () => selectChannel(idx);
         channelsList.appendChild(div);
       });
@@ -132,7 +158,6 @@
       currentChannel = currentGroup.channels[idx];
       selectedChannelName.textContent = currentChannel.name;
 
-      // اظهار زر التشغيل فقط إذا هناك رابط
       if (currentChannel.url && currentChannel.url.trim() !== "") {
         playButton.style.display = "inline-block";
         playButton.onclick = () => openInVLC(currentChannel.url);
@@ -143,7 +168,7 @@
       showPage("playerPage");
     }
 
-    // الرجوع بين الصفحات
+    // التنقل بين الصفحات
     function goBackToGroups() { showPage("groupsPage"); }
     function goBackToChannels() { showPage("channelsPage"); }
 
@@ -177,7 +202,6 @@
 
       window.location.href = targetUrl;
 
-      // في حال لم يُفتح VLC، بعد ثانيتين يظهر رابط التحميل
       setTimeout(() => {
         note.innerHTML = "⚠️ لم يتم فتح VLC تلقائيًا، يمكنك تحميله من الرابط أدناه:";
         installLink.href = downloadUrl;
@@ -185,7 +209,6 @@
       }, 1800);
     }
 
-    // تحميل المجموعات عند بدء الصفحة
     loadGroups();
   </script>
 
