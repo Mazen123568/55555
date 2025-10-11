@@ -1,216 +1,64 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مشغل IPTV احترافي</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
-    body { background: #0a0a0a; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-    h1, h2 { color: #00ffd1; text-align: center; margin: 20px 0; }
-    h1 { font-size: 32px; text-shadow: 0 0 10px #00ffd1; }
-    h2 { font-size: 24px; text-shadow: 0 0 8px #00ffd1; }
-    .page { display: none; width: 100%; max-width: 500px; }
-    .active { display: block; }
-    .list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-    .item { background: #111; padding: 15px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .item:hover { background: #00ffd1; color: #000; transform: scale(1.05); }
-    button { background: linear-gradient(135deg, #00ffd1, #0072ff); border: none; border-radius: 40px; padding: 14px 30px; font-size: 18px; font-weight: bold; color: #000; cursor: pointer; transition: 0.3s; margin-top: 20px; }
-    button:hover { transform: scale(1.07); box-shadow: 0 0 25px #00ffd1; }
-    .note { margin-top: 20px; font-size: 14px; color: #888; text-align: center; }
-    .install-link { display: none; margin-top: 15px; color: #00ffd1; font-weight: bold; text-decoration: none; border: 1px solid #00ffd1; padding: 10px 20px; border-radius: 25px; transition: 0.3s; }
-    .install-link:hover { background: #00ffd1; color: #000; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPTV + AdMob تجربة</title>
+<style>
+  body { font-family: 'Cairo', sans-serif; background: #0a0a0a; color: #fff; padding: 20px; text-align: center; }
+  h1 { color: #00ffd1; text-shadow: 0 0 10px #00ffd1; }
+  button { background: #00ffd1; border: none; border-radius: 20px; padding: 12px 25px; margin: 10px; color: #000; cursor: pointer; }
+  .log { margin-top: 20px; color: #fff; text-align: left; max-height: 150px; overflow-y: auto; background: #111; padding: 10px; border-radius: 10px; }
+  .banner-ad { width: 320px; height: 50px; background: #ffcc00; color: #000; line-height: 50px; margin: 20px auto; border-radius: 10px; font-weight: bold; }
+</style>
 </head>
-
 <body>
 
+<h1>💰 تجربة AdMob + IPTV</h1>
 
+<div id="banner" class="banner-ad">بانر إعلان تجريبي</div>
 
- <h1>💰 اختبار إعلانات AdMob</h1>
+<button onclick="showInterstitial()">إعلان بيني تجريبي</button>
 
-  <button onclick="enableBanner()">تشغيل بانر الإعلان</button>
-  <button onclick="disableBanner()">إخفاء البانر</button>
-  <button onclick="showInterstitial()">عرض إعلان بيني</button>
-  <button onclick="askTracking()">طلب إذن التتبع (iOS)</button>
-  <button onclick="askConsent()">طلب موافقة GDPR</button>
+<div class="log" id="log">Logs:</div>
 
-  <div class="log" id="log">Logs:</div>
+<h2>قنوات IPTV</h2>
+<div id="channelsList"></div>
 
-  <script>
-    // ⚙️ إعداد معرفات AdMob هنا
-    median.admob.configure({
-      appId: "ca-app-pub-3940256099942544~3347511713",
-      bannerId: "ca-app-pub-3940256099942544/2934735716",
-      interstitialId: "ca-app-pub-3940256099942544/1712485313"
-    });
+<script>
+  const logEl = document.getElementById("log");
+  function log(msg){ logEl.innerHTML += '<br>➡️ '+msg; }
 
-    // بقية الكود السابق هنا (الدوال enableBanner، showInterstitial، إلخ...)
+  // Fake Interstitial
+  function showInterstitial(){
+    alert("إعلان بيني تجريبي 🎬");
+    log("تم عرض الإعلان البيني التجريبي");
+  }
 
-  <h1>🎬 مشغل IPTV احترافي</h1>
+  // Example Channels
+  const channels = [
+    { name:"قناة رياضية 1", url:"https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8" },
+    { name:"قناة رياضية 2", url:"https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8" },
+    { name:"قناة أفلام 1", url:"https://shls-live-enc.edgenextcdn.net/out/v1/.../index_5.m3u8" }
+  ];
 
-  <!-- صفحة المجموعات -->
-  <div id="groupsPage" class="page active">
-    <h2>اختر مجموعة القنوات</h2>
-    <div class="list" id="groupsList"></div>
-  </div>
+  const channelsList = document.getElementById("channelsList");
+  channels.forEach((ch, idx)=>{
+    const btn = document.createElement("button");
+    btn.textContent = ch.name;
+    btn.onclick = ()=>{ alert("تشغيل القناة: "+ch.url); log("تم اختيار "+ch.name); };
+    channelsList.appendChild(btn);
+  });
 
-  <!-- صفحة القنوات -->
-  <div id="channelsPage" class="page">
-    <h2 id="selectedGroupName">المجموعة</h2>
-    <div class="list" id="channelsList"></div>
-    <button onclick="goBackToGroups()">⬅️ رجوع للمجموعات</button>
-  </div>
-
-  <!-- صفحة التشغيل -->
-  <div id="playerPage" class="page">
-    <h2 id="selectedChannelName">القناة</h2>
-    <button id="playButton" style="display:none;">▶️ تشغيل في VLC</button>
-    <div class="note" id="note"></div>
-    <a id="installLink" class="install-link" target="_blank">تحميل VLC</a>
-    <button onclick="goBackToChannels()">⬅️ رجوع للقنوات</button>
-  </div>
-
-  <script>
-    // مثال للمجموعات والقنوات مع أيقونات
-    const data = [
-      {
-        name: "مجموعة رياضية",
-        channels: [
-          { name: "قناة الرياضية 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/soccer-ball.png" },
-          { name: "قناة الرياضية 2", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/basketball.png" },
-          { name: "قناة الرياضية 3", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/tennis.png" },
-          { name: "قناة الرياضية 4", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/volleyball.png" },
-          { name: "قناة الرياضية 5", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/american-football.png" },
-          { name: "قناة الرياضية 6", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/boxing-glove.png" },
-          { name: "قناة الرياضية 7", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/running.png" },
-          { name: "قناة الرياضية 8", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/cycling.png" },
-          { name: "قناة الرياضية 9", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_3.m3u8", icon: "https://img.icons8.com/color/48/000000/swimming.png" },
-          { name: "قناة الرياضية 10", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_4.m3u8", icon: "https://img.icons8.com/color/48/000000/golf.png" }
-        ]
-      },
-      {
-        name: "مجموعة أفلام",
-        channels: [
-          { name: "قناة الأفلام 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_5.m3u8", icon: "https://img.icons8.com/color/48/000000/movie.png" },
-          { name: "قناة الأفلام 2", url: "", icon: "https://img.icons8.com/color/48/000000/popcorn.png" }
-        ]
-      },
-      {
-        name: "مجموعة أطفال",
-        channels: [
-          { name: "قناة الأطفال 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_7.m3u8", icon: "https://img.icons8.com/color/48/000000/kids-room.png" },
-          { name: "قناة الأطفال 2", url: "https://shls-live-enc.edgenextcdn.net/out/v1/.../index_8.m3u8", icon: "https://img.icons8.com/color/48/000000/bear.png" }
-        ]
-      }
-    ];
-
-    const groupsList = document.getElementById("groupsList");
-    const channelsList = document.getElementById("channelsList");
-    const selectedGroupName = document.getElementById("selectedGroupName");
-    const selectedChannelName = document.getElementById("selectedChannelName");
-    const playButton = document.getElementById("playButton");
-    let currentGroup = null;
-    let currentChannel = null;
-
-    // عرض المجموعات
-    function loadGroups() {
-      groupsList.innerHTML = "";
-      data.forEach((group, idx) => {
-        const div = document.createElement("div");
-        div.className = "item";
-        div.textContent = group.name;
-        div.onclick = () => selectGroup(idx);
-        groupsList.appendChild(div);
-      });
-    }
-
-    // عند اختيار مجموعة
-    function selectGroup(idx) {
-      currentGroup = data[idx];
-      selectedGroupName.textContent = currentGroup.name;
-      loadChannels();
-      showPage("channelsPage");
-    }
-
-    // عرض القنوات مع الأيقونات
-    function loadChannels() {
-      channelsList.innerHTML = "";
-      currentGroup.channels.forEach((channel, idx) => {
-        const div = document.createElement("div");
-        div.className = "item";
-
-        let content = "";
-        if(channel.icon){
-          content += `<img src="${channel.icon}" alt="icon" style="width:30px; height:30px; vertical-align:middle; margin-left:10px; border-radius:5px;">`;
-        }
-        content += channel.name;
-        div.innerHTML = content;
-
-        div.onclick = () => selectChannel(idx);
-        channelsList.appendChild(div);
-      });
-    }
-
-    // عند اختيار قناة
-    function selectChannel(idx) {
-      currentChannel = currentGroup.channels[idx];
-      selectedChannelName.textContent = currentChannel.name;
-
-      if (currentChannel.url && currentChannel.url.trim() !== "") {
-        playButton.style.display = "inline-block";
-        playButton.onclick = () => openInVLC(currentChannel.url);
-      } else {
-        playButton.style.display = "none";
-      }
-
-      showPage("playerPage");
-    }
-
-    // التنقل بين الصفحات
-    function goBackToGroups() { showPage("groupsPage"); }
-    function goBackToChannels() { showPage("channelsPage"); }
-
-    function showPage(pageId) {
-      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-      document.getElementById(pageId).classList.add("active");
-    }
-
-    // فتح VLC
-    function openInVLC(streamUrl) {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const tempUrl = streamUrl + (streamUrl.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
-
-      const note = document.getElementById("note");
-      const installLink = document.getElementById("installLink");
-      installLink.style.display = "none";
-
-      let targetUrl = "";
-      let downloadUrl = "";
-
-      if (/android/i.test(userAgent)) {
-        targetUrl = `intent://${tempUrl.replace(/^https?:\/\//, '')}#Intent;scheme=http;package=org.videolan.vlc;end`;
-        downloadUrl = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
-      } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        targetUrl = `vlc-x-callback://x-callback-url/stream?url=${encodeURIComponent(tempUrl)}`;
-        downloadUrl = "https://apps.apple.com/app/vlc-for-mobile/id650377962";
-      } else {
-        targetUrl = `vlc://${tempUrl}`;
-        downloadUrl = "https://www.videolan.org/vlc/";
-      }
-
-      window.location.href = targetUrl;
-
-      setTimeout(() => {
-        note.innerHTML = "⚠️ لم يتم فتح VLC تلقائيًا، يمكنك تحميله من الرابط أدناه:";
-        installLink.href = downloadUrl;
-        installLink.style.display = "inline-block";
-      }, 1800);
-    }
-
-    loadGroups();
-  </script>
+  // AdMob fake config for WebView placeholder
+  const isWebView = /wv|Android|iPhone|iPad/i.test(navigator.userAgent);
+  if(isWebView){
+    log("يتم عرض الصفحة داخل WebView. يمكن ربط AdMob حقيقي هنا.");
+    // هنا يمكن إضافة كود median.admob.configure() عند تشغيل التطبيق
+  } else {
+    log("تجربة في المتصفح فقط. الإعلانات وهمية الآن.");
+  }
+</script>
 
 </body>
 </html>
