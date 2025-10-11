@@ -30,18 +30,15 @@
 </head>
 <body class="bg-gray-900 text-white p-4 min-h-screen text-sm sm:text-base">
 
-  <!-- الشعار -->
   <div class="flex justify-center items-center mb-6">
     <img src="https://www.arabseed.stream/images/67fcb12ad4171ic_launcher.png" alt="Flicksy Logo" class="w-12 h-12 mr-2" />
-    <h1 class="text-2xl font-bold text-center">📺</h1>
+    <h1 class="text-2xl font-bold text-center">📺 فلكسي TV</h1>
   </div>
 
-  <!-- زر الدخول -->
   <div id="adminAccess" class="mb-6">
     <button onclick="checkPassword()" class="bg-600 px-4 py-2 rounded">🔐 </button>
   </div>
 
-  <!-- نموذج الاستيراد -->
   <div id="uploadForm" class="mb-6 space-y-4 hidden">
     <input type="file" id="m3uFile" accept=".m3u,.txt" class="bg-gray-800 p-2 rounded w-full" />
     <input type="text" id="m3uUrl" placeholder="🌐 أدخل رابط M3U مباشر" class="bg-gray-800 p-2 rounded w-full" />
@@ -56,14 +53,12 @@
     </div>
   </div>
 
-  <!-- زر تحميل القنوات المحفوظة -->
   <div class="relative group mb-4">
     <button type="button" onclick="loadSavedChannels()" class="bg-purple-500 py-2 px-4 rounded w-full">
-        تحديث  🚀 🚀 🚀  البث 
+        تحديث 🚀🚀🚀 البث
     </button>
   </div>
 
-  <!-- البحث + الفلاتر -->
   <input type="text" id="searchInput" placeholder="🔍 ابحث عن قناة..." class="w-full p-2 mb-4 bg-gray-800 rounded" />
   <div class="flex gap-4 mb-6">
     <button id="categoryDropdownBtn" class="bg-blue-700 px-4 py-1 rounded-full">📂 اختر تصنيف</button>
@@ -71,7 +66,6 @@
   </div>
   <div id="categoriesBar" class="absolute hidden mt-2 w-56 max-h-72 overflow-y-auto rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 z-20"></div>
 
-  <!-- المشغل -->
   <div id="playerContainer" class="relative hidden mb-6">
     <div id="loadingSpinner" class="hidden absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 z-10">
       <div class="spinner"></div>
@@ -83,10 +77,8 @@
     </div>
   </div>
 
-  <!-- القنوات -->
   <div id="channelGroups" class="space-y-6"></div>
 
-  <!-- إشعارات -->
   <div id="favNotification" class="fixed bottom-4 right-4 bg-yellow-600 text-black px-4 py-2 rounded shadow-lg hidden z-50">
     ✅ تم الإضافة إلى المفضلة
   </div>
@@ -94,10 +86,8 @@
     ⏳ جارٍ تحميل القنوات...
   </div>
 
-  <!-- صوت عند التشغيل -->
   <audio id="startSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_f93c5643bf.mp3?filename=tweet.mp3" preload="auto"></audio>
 
-  <!-- سكربتات -->
   <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
@@ -190,30 +180,52 @@
       });
     }
 
+    // ✅ تشغيل داخلي أولاً، وإذا فشل يفتح في VLC الخارجي
     function checkAndPlayChannel(url) {
       spinner.classList.remove("hidden");
-      fetch(url, { method: 'HEAD' })
-        .then(res => res.ok ? playChannel(url) : alert('❌ الرابط غير صالح'))
-        .catch(() => alert('❌ تعذر التحقق من الرابط'))
-        .finally(() => spinner.classList.add("hidden"));
+      playChannel(url)
+        .then(() => spinner.classList.add("hidden"))
+        .catch(() => {
+          spinner.classList.add("hidden");
+          openInVLC(url);
+        });
     }
 
     function playChannel(url) {
-      if (Hls.isSupported()) {
-        if (window.hls) window.hls.destroy();
-        const hls = new Hls();
-        hls.loadSource(url);
-        hls.attachMedia(video);
-        window.hls = hls;
-      } else {
-        video.src = url;
+      return new Promise((resolve, reject) => {
+        try {
+          if (Hls.isSupported()) {
+            if (window.hls) window.hls.destroy();
+            const hls = new Hls();
+            hls.loadSource(url);
+            hls.attachMedia(video);
+            window.hls = hls;
+          } else {
+            video.src = url;
+          }
+          video.play()
+            .then(() => {
+              document.getElementById('startSound').play().catch(() => {});
+              lastChannelUrl = url;
+              document.getElementById('playerContainer').classList.remove('hidden');
+              document.getElementById('channelGroups').classList.add('hidden');
+              document.getElementById('playerContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
+              resolve();
+            })
+            .catch(reject);
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }
+
+    // ✅ إذا فشل الداخلي → يفتح VLC، وإن لم يكن مثبتًا → يذهب لمتجر Play
+    function openInVLC(url) {
+      const vlcUrl = `vlc://${url}`;
+      const opened = window.open(vlcUrl, '_blank');
+      if (!opened || opened.closed || typeof opened.closed === 'undefined') {
+        window.location.href = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
       }
-      video.play();
-      document.getElementById('startSound').play().catch(() => {});
-      lastChannelUrl = url;
-      document.getElementById('playerContainer').classList.remove('hidden');
-      document.getElementById('channelGroups').classList.add('hidden');
-      document.getElementById('playerContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function closePlayer() {
@@ -328,11 +340,9 @@
       displayChannels('all');
     });
 
-    // ✅ تحميل تلقائي عند فتح الصفحة مع حقن رابط افتراضي
     window.onload = () => {
       const savedContent = localStorage.getItem('savedM3UContent');
       const savedUrl = localStorage.getItem('savedM3UUrl');
-
       if (savedContent) {
         parseM3U(savedContent);
       } else if (savedUrl) {
@@ -349,49 +359,9 @@
       }
     };
     
-    
-    
-    
     categoryBtn.addEventListener('click', () => {
-  categoryMenu.classList.toggle('hidden');
-});
-
-
-
-
-
-
-
-const vlcPackage = "org.videolan.vlc"; // Package name الخاص بـ VLC
-
-  function openInVLC(url) {
-    // رابط intent لتشغيل القناة في VLC على أندرويد
-    const vlcIntent = `intent:${url}#Intent;package=${vlcPackage};scheme=http;end`;
-    
-    const tempLink = document.createElement('a');
-    tempLink.href = vlcIntent;
-    tempLink.style.display = 'none';
-    document.body.appendChild(tempLink);
-    tempLink.click();
-    document.body.removeChild(tempLink);
-
-    // تحقق بعد 1.5 ثانية إذا لم يتم فتح التطبيق
-    setTimeout(() => {
-      const install = confirm("⚠️ VLC غير مثبت. هل تريد تثبيته من متجر Play؟");
-      if (install) {
-        window.location.href = "https://play.google.com/store/apps/details?id=" + vlcPackage;
-      }
-    }, 1500);
-  }
-
-  function checkAndPlayChannel(url) {
-    openInVLC(url); // كل قناة تُفتح مباشرة من خلال VLC
-  }
-
-  // إلغاء كل الكود الخاص بـ Plyr و HLS.js لأنه لن يستخدم
-  // إزالة playChannel, closePlayer, video.pause() وغيرها
-
+      categoryMenu.classList.toggle('hidden');
+    });
   </script>
 </body>
 </html>
-
