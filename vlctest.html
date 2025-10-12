@@ -186,34 +186,13 @@
     } 
 
 
-    // ✅ زر تحديث القنوات
-function loadChannelsFromDefault() {
-  const notice = document.getElementById('loadingNotice');
-  notice.classList.remove('hidden');
-
-  const defaultUrl = "https://www.arabseed.stream/storage/m3u/playlist_68203bbd9e6114.72123431.m3u";
-
-  fetch(defaultUrl)
-    .then(res => res.text())
-    .then(content => {
-      localStorage.setItem('savedM3UUrl', defaultUrl);  // اختياري إذا أردت الحفظ
-      localStorage.removeItem('savedM3UContent');       // إلغاء أي ملف محفوظ
-      parseM3U(content);
-    })
-    .catch(() => alert("❌ تعذر تحميل القنوات من الرابط"))
-    .finally(() => setTimeout(() => notice.classList.add('hidden'), 1000));
-}
-
-
-
-
-
     // تحميل المجموعات عند بدء الصفحة
     loadGroups();
   </script>
 
 </body>
 </html>
+
 
 
 
