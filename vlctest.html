@@ -21,8 +21,6 @@
     .note { margin-top: 20px; font-size: 14px; color: #888; text-align: center; }
     .install-link { display: none; margin-top: 15px; color: #00ffd1; font-weight: bold; text-decoration: none; border: 1px solid #00ffd1; padding: 10px 20px; border-radius: 25px; transition: 0.3s; }
     .install-link:hover { background: #00ffd1; color: #000; }
-
-    /* شاشة الإرشادات */
     #instructions {
       position: fixed; inset: 0;
       background: rgba(0,0,0,0.95);
@@ -39,7 +37,7 @@
 
   <div id="instructions" style="display:none;">
     <h2>📱 إرشادات الاستخدام</h2>
-    <p>تأكد من تثبيت تطبيق VLC على جهازك.</p>
+    <p>تأكد من تثبيت تطبيق <strong>Next Player</strong> على جهازك.</p>
     <p>إذا لم يكن التطبيق مثبتًا سيتم تحميله تلقائيًا.</p>
     <button onclick="skipInstructions()">تخطي ➜</button>
   </div>
@@ -59,21 +57,19 @@
 
   <div id="playerPage" class="page">
     <h2 id="selectedChannelName">القناة</h2>
-    <button id="playButton" style="display:none;">▶️ تشغيل في VLC</button>
     <div class="note" id="note"></div>
-    <a id="installLink" class="install-link" target="_blank">تحميل VLC</a>
+    <a id="installLink" class="install-link" target="_blank">تحميل Next Player</a>
     <button onclick="goBackToChannels()">⬅️ رجوع للقنوات</button>
   </div>
 
   <script>
-    // ====== بيانات القنوات ======
     const data = [
       { name: "مجموعة رياضية", channels: [
         { name: "قناة الرياضية 1", url: "http://158.69.124.9:1935/5aabtv/5aabtv/playlist.m3u8" },
         { name: "قناة الرياضية 2", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" }
       ]},
       { name: "مجموعة أفلام", channels: [
-        { name: "قناة الأفلام 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_5.m3u8" }
+        { name: "قناة الأفلام 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/0965e4d7deae49179172426cbfb3bc5e/index_5.m3u8" }
       ]}
     ];
 
@@ -81,8 +77,9 @@
     const channelsList = document.getElementById("channelsList");
     const selectedGroupName = document.getElementById("selectedGroupName");
     const selectedChannelName = document.getElementById("selectedChannelName");
-    const playButton = document.getElementById("playButton");
-    let currentGroup = null, currentChannel = null;
+    const note = document.getElementById("note");
+    const installLink = document.getElementById("installLink");
+    let currentGroup = null;
 
     function loadGroups() {
       groupsList.innerHTML = "";
@@ -104,23 +101,13 @@
 
     function loadChannels() {
       channelsList.innerHTML = "";
-      currentGroup.channels.forEach((channel, idx) => {
+      currentGroup.channels.forEach((channel) => {
         const div = document.createElement("div");
         div.className = "item";
         div.textContent = channel.name;
-        div.onclick = () => selectChannel(idx);
+        div.onclick = () => openInNextPlayer(channel);
         channelsList.appendChild(div);
       });
-    }
-
-    function selectChannel(idx) {
-      currentChannel = currentGroup.channels[idx];
-      selectedChannelName.textContent = currentChannel.name;
-      if (currentChannel.url && currentChannel.url.trim() !== "") {
-        playButton.style.display = "inline-block";
-        playButton.onclick = () => openInVLC(currentChannel.url);
-      } else playButton.style.display = "none";
-      showPage("playerPage");
     }
 
     function goBackToGroups() { showPage("groupsPage"); }
@@ -130,34 +117,29 @@
       document.getElementById(pageId).classList.add("active");
     }
 
-    // ====== فتح VLC ======
-    function openInVLC(streamUrl) {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const tempUrl = streamUrl + (streamUrl.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
-      const note = document.getElementById("note");
-      const installLink = document.getElementById("installLink");
-      installLink.style.display = "none";
-      let targetUrl = "", downloadUrl = "";
+    // === فتح القناة في Next Player مباشرة ===
+    function openInNextPlayer(channel) {
+      selectedChannelName.textContent = channel.name;
+      showPage("playerPage");
 
-      if (/android/i.test(userAgent)) {
-        targetUrl = `intent://${tempUrl.replace(/^https?:\/\//, '')}#Intent;scheme=http;package=org.videolan.vlc;end`;
-        downloadUrl = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
-      } else {
-        targetUrl = `vlc://${tempUrl}`;
-        downloadUrl = "https://www.videolan.org/vlc/";
-      }
+      const tempUrl = channel.url + (channel.url.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
+      const downloadUrl = "https://play.google.com/store/apps/details?id=com.next.vp";
+      const intentUrl = `intent://${tempUrl.replace(/^https?:\/\//, '')}#Intent;scheme=http;package=com.next.vp;end`;
 
-      window.location.href = targetUrl;
+      // محاولة فتح التطبيق
+      window.location.href = intentUrl;
+
+      // إذا لم يتم فتحه، بعد 1.8 ثانية نعرض رابط التحميل
       setTimeout(() => {
-        note.innerHTML = "⚠️ لم يتم فتح VLC تلقائيًا، يمكنك تحميله من الرابط أدناه:";
+        note.innerHTML = "⚠️ لم يتم فتح تطبيق Next Player تلقائيًا، يمكنك تحميله من الرابط أدناه:";
         installLink.href = downloadUrl;
         installLink.style.display = "inline-block";
       }, 1800);
     }
 
-    // ====== الإرشادات أول مرة ======
+    // === شاشة الإرشادات ===
     const hasVisited = localStorage.getItem('hasVisited');
-    const apkUrl = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
+    const apkUrl = "https://play.google.com/store/apps/details?id=com.next.vp";
     function skipInstructions() {
       localStorage.setItem('hasVisited', 'true');
       document.getElementById('instructions').style.display = 'none';
@@ -173,7 +155,6 @@
       document.getElementById('instructions').style.display = 'flex';
     }
 
-    // تحميل المجموعات
     loadGroups();
   </script>
 </body>
