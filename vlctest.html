@@ -39,7 +39,7 @@
 
   <div id="instructions" style="display:none;">
     <h2>📱 إرشادات الاستخدام</h2>
-    <p>تأكد من تثبيت المشغل الخارجي (Video Player by InShot) على جهازك.</p>
+    <p>تأكد من تثبيت تطبيق VLC على جهازك.</p>
     <p>إذا لم يكن التطبيق مثبتًا سيتم تحميله تلقائيًا.</p>
     <button onclick="skipInstructions()">تخطي ➜</button>
   </div>
@@ -59,9 +59,9 @@
 
   <div id="playerPage" class="page">
     <h2 id="selectedChannelName">القناة</h2>
-    <button id="playButton" style="display:none;">▶️ تشغيل في المشغل الخارجي</button>
+    <button id="playButton" style="display:none;">▶️ تشغيل في VLC</button>
     <div class="note" id="note"></div>
-    <a id="installLink" class="install-link" target="_blank">تحميل المشغل الخارجي</a>
+    <a id="installLink" class="install-link" target="_blank">تحميل VLC</a>
     <button onclick="goBackToChannels()">⬅️ رجوع للقنوات</button>
   </div>
 
@@ -118,7 +118,7 @@
       selectedChannelName.textContent = currentChannel.name;
       if (currentChannel.url && currentChannel.url.trim() !== "") {
         playButton.style.display = "inline-block";
-        playButton.onclick = () => openInExternalPlayer(currentChannel.url);
+        playButton.onclick = () => openInVLC(currentChannel.url);
       } else playButton.style.display = "none";
       showPage("playerPage");
     }
@@ -130,8 +130,8 @@
       document.getElementById(pageId).classList.add("active");
     }
 
-    // ====== فتح المشغل الخارجي ======
-    function openInExternalPlayer(streamUrl) {
+    // ====== فتح VLC ======
+    function openInVLC(streamUrl) {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
       const tempUrl = streamUrl + (streamUrl.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
       const note = document.getElementById("note");
@@ -140,17 +140,16 @@
       let targetUrl = "", downloadUrl = "";
 
       if (/android/i.test(userAgent)) {
-        // 🔹 نفتح تطبيق com.next.vp
-        targetUrl = `intent://${tempUrl.replace(/^https?:\/\//, '')}#Intent;scheme=http;package=com.next.vp;end`;
-        downloadUrl = "https://play.google.com/store/apps/details?id=com.next.vp";
+        targetUrl = `intent://${tempUrl.replace(/^https?:\/\//, '')}#Intent;scheme=http;package=org.videolan.vlc;end`;
+        downloadUrl = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
       } else {
-        targetUrl = tempUrl;
-        downloadUrl = "https://play.google.com/store/apps/details?id=com.next.vp";
+        targetUrl = `vlc://${tempUrl}`;
+        downloadUrl = "https://www.videolan.org/vlc/";
       }
 
       window.location.href = targetUrl;
       setTimeout(() => {
-        note.innerHTML = "⚠️ لم يتم فتح المشغل تلقائيًا، يمكنك تحميله من الرابط أدناه:";
+        note.innerHTML = "⚠️ لم يتم فتح VLC تلقائيًا، يمكنك تحميله من الرابط أدناه:";
         installLink.href = downloadUrl;
         installLink.style.display = "inline-block";
       }, 1800);
@@ -158,7 +157,7 @@
 
     // ====== الإرشادات أول مرة ======
     const hasVisited = localStorage.getItem('hasVisited');
-    const apkUrl = "https://play.google.com/store/apps/details?id=com.next.vp";
+    const apkUrl = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
     function skipInstructions() {
       localStorage.setItem('hasVisited', 'true');
       document.getElementById('instructions').style.display = 'none';
@@ -179,3 +178,4 @@
   </script>
 </body>
 </html>
+
