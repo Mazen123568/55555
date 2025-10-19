@@ -1,1143 +1,182 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-
-  <title>فلكسي TV</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مشغل IPTV احترافي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
-    #videoPlayer { width: 100%; background: black; aspect-ratio: 16/9; }
-    .pulse { animation: pulse 1.5s infinite; }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+    body { background: #0a0a0a; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+    h1, h2 { color: #00ffd1; text-align: center; margin: 20px 0; }
+    h1 { font-size: 32px; text-shadow: 0 0 10px #00ffd1; }
+    h2 { font-size: 24px; text-shadow: 0 0 8px #00ffd1; }
+    .page { display: none; width: 100%; max-width: 500px; }
+    .active { display: block; }
+    .list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+    .item { background: #111; padding: 15px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; text-align: center; }
+    .item:hover { background: #00ffd1; color: #000; transform: scale(1.05); }
+    button { background: linear-gradient(135deg, #00ffd1, #0072ff); border: none; border-radius: 40px; padding: 14px 30px; font-size: 18px; font-weight: bold; color: #000; cursor: pointer; transition: 0.3s; margin-top: 20px; }
+    button:hover { transform: scale(1.07); box-shadow: 0 0 25px #00ffd1; }
+    .note { margin-top: 20px; font-size: 14px; color: #888; text-align: center; }
+    .install-link { display: none; margin-top: 15px; color: #00ffd1; font-weight: bold; text-decoration: none; border: 1px solid #00ffd1; padding: 10px 20px; border-radius: 25px; transition: 0.3s; }
+    .install-link:hover { background: #00ffd1; color: #000; }
+
+    /* شاشة الإرشادات */
+    #instructions {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.95);
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      z-index: 9999; text-align: center;
+      padding: 20px;
     }
-   html, body {
-  overflow-x: hidden;
-}
-
-.spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid white;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; overscroll-behavior: contain; }
-    #zoomWrapper { overflow: hidden; touch-action: none; position: relative; }
-    #zoomWrapper video { transform-origin: center center; transition: transform 0.3s ease-in-out; }
-    @keyframes ping-fast {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.3); opacity: 0.7; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .animate-ping-fast { animation: ping-fast 1s infinite; }
-
-
-
-
-
-  /* ✅ لإضافة مسافة 10px أسفل قائمة القنوات حتى لا تلتصق بالحافة السفلية */
-
-    @media (max-width: 768px) {
-  /* ✅ لإضافة مسافة 360px أسفل قائمة القنوات في وضع الجوال فقط */
-  #channelGroups::after {
-    content: "";
-    display: block;
-    height: 360px;
-  }
-}
-
-
-
-
-
+    #instructions h2 { color: #00ffd1; margin-bottom: 15px; }
+    #instructions p { color: #fff; font-size: 16px; margin: 5px 0; }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flowplayer/7.2.7/skin/skin.css">
 </head>
-<body class="bg-gray-900 text-white p-4 min-h-screen text-sm sm:text-base">
+<body>
 
-
-
-<div class="flex gap-4 mb-6">
-
-    <button id="categoryDropdownBtn" class="bg-red-0 px-4 py-1 rounded-full">📂 القائمة </button>
-    <button onclick="displayFavorites()" class="bg-yellow-0 px-4 py-1 rounded-full">⭐ المفضلة</button>
-    <button onclick="checkPassword()" class="bg-0px-4 py-2 rounded">🔐m3u </button>
+  <div id="instructions" style="display:none;">
+    <h2>📱 إرشادات الاستخدام</h2>
+    <p>تأكد من تثبيت تطبيق VLC على جهازك.</p>
+    <p>إذا لم يكن التطبيق مثبتًا سيتم تحميله تلقائيًا.</p>
+    <button onclick="skipInstructions()">تخطي ➜</button>
   </div>
 
-  <div id="errorMessage" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 text-white text-xl font-bold z-50 hidden">
-  ❌ حدث انقطاع في البث
-</div>
+  <h1>🎬 مشغل IPTV احترافي</h1>
 
-
-  <!-- الشعار
-  <div class="flex justify-center items-center mb-6">
-    <img src="https://www.arabseed.stream/images/67fcb12ad4171ic_launcher.png" alt="Flicksy Logo" class="w-12 h-12 mr-2" />
-    <h1 class="text-2xl font-bold text-center">📺</h1>
-  </div> -->
-
-
-
-
-  <!-- نموذج الاستيراد -->
-  <div id="uploadForm" class="mb-6 space-y-4 hidden">
-    <input type="file" id="m3uFile" accept=".m3u,.txt" class="bg-gray-800 p-2 rounded w-full" />
-    <input type="text" id="m3uUrl" placeholder="🌐 أدخل رابط M3U مباشر" class="bg-gray-800 p-2 rounded w-full" />
-    <button type="button" id="loadUrl" class="bg-green-600 py-2 px-4 rounded w-full">📥 استيراد من رابط</button>
-    <div class="my-4 space-y-2">
-  <input id="customVideoUrl" type="text" placeholder="🎥 أدخل رابط فيديو مثل .mkv أو .mp4 أو .m3u8"
-    class="w-full p-2 rounded bg-gray-800 text-white" />
-
-  <button onclick="playCustomVideo()"
-    class="bg-blue-600 text-white px-4 py-2 rounded w-full">▶️ تشغيل الرابط</button>
-</div>
-
-
-<!-- نموذج الاستيراد -
-    <div class="bg-gray-800 p-3 rounded space-y-2">
-      <h2 class="font-bold text-sm text-yellow-400">🌐 استيراد من Xtream Codes</h2>
-      <input type="text" id="xtreamHost" placeholder="🛰️ رابط السيرفر (http://host:port)" class="w-full p-1 rounded bg-gray-700 text-sm" />
-      <input type="text" id="xtreamUser" placeholder="👤 اسم المستخدم" class="w-full p-1 rounded bg-gray-700 text-sm" />
-      <input type="password" id="xtreamPass" placeholder="🔑 كلمة المرور" class="w-full p-1 rounded bg-gray-700 text-sm" />
-      <button type="button" onclick="loadXtream()" class="bg-blue-700 py-2 px-4 rounded w-full">📡 استيراد من Xtream</butto>   -->
-
-
-
-  </div>
+  <div id="groupsPage" class="page active">
+    <h2>اختر مجموعة القنوات</h2>
+    <div class="list" id="groupsList"></div>
   </div>
 
-
-  <!-- زر تحميل القنوات المحفوظة -->
-<div class="relative group mb-4">
-  <button type="button" onclick="loadChannelsFromDefault()" class="bg-red-700 py-2 px-4 rounded w-full">
-      تحديث 🚀🚀🚀 البث
-  </button>
-</div>
-
-
-<!-- زر القائمة -->
-<div class="relative mb-4">
-  <button onclick="toggleM3UDropdown()" class="bg-purple-700 px-4 py-2 rounded w-full">
-    🌐 🚀 سوف يعمل قريبا
-  </button>
-
-  <!-- القائمة المنسدلة -->
-  <div id="m3uDropdown" class="hidden absolute mt-2 w-full bg-gray-800 rounded shadow-lg z-30">
-      <button onclick="loadFromUrl('https://raw.githubusercontent.com/Mazen123568/55555/main/mo55555vies.m3u
-')" class="block w-full text-right px-4 py-2 hover:bg-gray-700">🌐 جميع القنوات</button>
-
-    <button onclick="loadFromUrl('https://example.com/movies.m3u')" class="block w-full text-right px-4 py-2 hover:bg-gray-700">🎬 أفلام</button>
-
-    <button onclick="loadFromUrl('https://example.com/sports.m3u')" class="block w-full text-right px-4 py-2 hover:bg-gray-700">⚽ رياضة</button>
-
-    <button onclick="loadFromUrl('https://example.com/kids.m3u')" class="block w-full text-right px-4 py-2 hover:bg-gray-700">🧒 أطفال</button>
-
-    <button onclick="loadFromUrl('http://line.extraott-iptv.com:88/get.php?username=2755789541&password=1300714776&type=m3u')" class="block w-full text-right px-4 py-2 hover:bg-gray-700">📰 أخبار</button>
-
-  </div>
-</div>
-
-
-
-  <!-- البحث + الفلاتر -->
-  <input type="text" id="searchInput" placeholder="🔍 ابحث عن قناة....." class="w-full p-2 mb-4 bg-gray-800 rounded" />
-
-  <div id="categoriesBar" class="absolute hidden mt-2 w-56 max-h-72 overflow-y-auto rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 z-20"></div>
-
-  <!-- المشغل -->
- <!-- ✅ مشغل + قنوات بجانب بعض (المشغل في اليمين) -->
-<div id="sideBySideContainer" class="flex flex-col md:flex-row-reverse gap-4 mb-6">
-
-
-
-
-
-<!-- ✅ حركة اليد لتوضيح التكبير -->
-<div id="zoomGesture" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-60 hidden">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Pinch-zoom-gesture.gif"
-       alt="zoom gesture" class="w-32 h-32 rounded-xl shadow-lg" />
-  <p class="mt-4 text-white text-center text-sm animate-bounce">📲 استخدم إصبعين للتكبير</p>
-</div>
-
-
-  <!-- ✅ المشغل في اليمين -->
-  <div id="playerContainer" class="relative w-full md:w-3/5 overflow-hidden hide-scrollbar hidden md:block">
-
-    <div id="loadingSpinner" class="hidden absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-  <div class="spinner"></div>
-</div>
-
-
-   <!-- Plyr داخل Zoom Wrapper -->
-<div id="plyrContainer" class="hide-scrollbar overflow-hidden flex" style="max-height: 100%; height: 100%;">
-  <div id="zoomWrapper" class="touch-none w-full h-full" style="touch-action: none;">
-  <video id="videoElement" controls playsinline style="width: 100%; height: 100%; object-fit: contain;"></video>
-  <!-- زر التكبير فقط -->
-  <button id="zoomButton"
-    onclick="cycleZoom()"
-    class="hidden absolute bottom-4 left-4 bg-white/80 text-black border border-gray-400 px-4 py-2 rounded-full shadow-md text-xs font-semibold backdrop-blur-sm z-50 transition-all duration-300">
-    ✂️ Zoom ×1
-  </button>
-</div>
-</div>
-
-
-    <!-- Flowplayer -->
-    <div id="flowContainer" class="w-full hidden hide-scrollbar overflow-hidden">
-      <div id="flowInstance" class="flowplayer fixed-controls bg-black rounded" data-ratio="0.5625" data-embed="true">
-        <video>
-          <source id="flowSource" type="application/x-mpegurl" src="">
-        </video>
-      </div>
-    </div>
-    <!-- Flowplayer
-
-    <div class="mt-2 flex gap-2 justify-center">
-      <button onclick="closePlayer()" class="bg-red-700 px-4 py-1 rounded pulse">❌ إغلاق</button>
-      <button onclick="playLastChannel()" class="bg-yellow-500 px-4 py-1 rounded">🔁 القناة السابقة</button>
-      <button onclick="togglePlayerLayout()" id="toggleLayoutBtn" class="bg-blue-600 px-4 py-1 rounded">🧭 إخفاء القنوات</button>
-    </div>-->
+  <div id="channelsPage" class="page">
+    <h2 id="selectedGroupName">المجموعة</h2>
+    <div class="list" id="channelsList"></div>
+    <button onclick="goBackToGroups()">⬅️ رجوع للمجموعات</button>
   </div>
 
-  <!-- ✅ القنوات في اليسار -->
-  <div id="channelGroups" class="w-full md:w-2/5 space-y-6 overflow-y-auto max-h-[80vh] pr-1 hide-scrollbar"></div>
-</div>
-
-
-
-  <!-- إشعارات -->
-  <div id="favNotification" class="fixed bottom-4 right-4 bg-yellow-600 text-black px-4 py-2 rounded shadow-lg hidden z-50">
-    ✅ تم الإضافة إلى المفضلة
-  </div>
-  <div id="loadingNotice" class="fixed bottom-4 right-4 bg-blue-600 text-white px-4 py-2 rounded shadow-lg hidden z-50">
-    ⏳ جارٍ تحميل القنوات...
+  <div id="playerPage" class="page">
+    <h2 id="selectedChannelName">القناة</h2>
+    <button id="playButton" style="display:none;">▶️ تشغيل في VLC</button>
+    <div class="note" id="note"></div>
+    <a id="installLink" class="install-link" target="_blank">تحميل VLC</a>
+    <button onclick="goBackToChannels()">⬅️ رجوع للقنوات</button>
   </div>
 
-  <!-- صوت عند التشغيل -->
-  <audio id="startSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_f93c5643bf.mp3?filename=tweet.mp3" preload="auto"></audio>
-
-  <!-- سكربتات -->
-  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-
-  <!-- Universal Player -->
-  <link rel="stylesheet" href="{{ asset('css/universal-player.css') }}">
-  <script src="{{ asset('js/universal-player.js') }}"></script>
-  <script src="{{ asset('js/player-enhancements.js') }}"></script>
-
-  <!-- flowplayer -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowplayer/7.2.7/flowplayer.min.js"></script>
-<script src="https://releases.flowplayer.org/hlsjs/flowplayer.hlsjs.min.js"></script>
-
-
-
-
-
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
-    const player = new Plyr('#videoElement');
+    // ====== بيانات القنوات ======
+    const data = [
+      { name: "مجموعة رياضية", channels: [
+        { name: "قناة الرياضية 1", url: "http://158.69.124.9:1935/5aabtv/5aabtv/playlist.m3u8" },
+        { name: "قناة الرياضية 2", url: "http://158.69.124.9:1935/5aabtv/5aabtv/playlist.m3u8" },
+        { name: "mbc 3", url: "https://shls-live-enc.edgenextcdn.net/out/v1/0965e4d7deae49179172426cbfb3bc5e/index_5.m3u8" },
+        { name: "قناة الرياضية 4", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_3.m3u8" }
+      ]},
+      { name: "مجموعة أفلام", channels: [
+        { name: "قناة الأفلام 1", url: "https://shls-live-enc.edgenextcdn.net/out/v1/08eca926a78a41339b8010c882410307/index_5.m3u8" }
+      ]}
+    ];
 
-    // 🔧 إجبار fullscreen أن يشمل #zoomWrapper بالكامل
-player.on('enterfullscreen', () => {
-  const zoomBtn = document.getElementById('zoomButton');
-  zoomBtn.classList.remove('hidden');
-});
+    const groupsList = document.getElementById("groupsList");
+    const channelsList = document.getElementById("channelsList");
+    const selectedGroupName = document.getElementById("selectedGroupName");
+    const selectedChannelName = document.getElementById("selectedChannelName");
+    const playButton = document.getElementById("playButton");
+    let currentGroup = null, currentChannel = null;
 
-player.on('exitfullscreen', () => {
-  const zoomBtn = document.getElementById('zoomButton');
-  zoomBtn.classList.add('hidden');
-  lastScale = 1;
-  currentX = 0;
-  currentY = 0;
-  applyTransform();
-  zoomBtn.innerText = '✂️ Zoom ×1';
-  currentZoomIndex = 0;
-});
-    const video = document.getElementById('videoElement');
-
-    const categoryBtn = document.getElementById('categoryDropdownBtn');
-    const categoryMenu = document.getElementById("categoriesBar");
-    const spinner = document.getElementById("loadingSpinner");
-    let allChannels = [], lastChannelUrl = null, showingFavorites = false;
-
-    function checkPassword() {
-      const input = prompt("🔐 أدخل كلمة المرور:");
-      if (input === "") {
-        document.getElementById('uploadForm').classList.remove('hidden');
-        document.getElementById('adminAccess').classList.add('hidden');
-      } else {
-        alert("❌ كلمة المرور غير صحيحة");
-      }
-    }
-
-    function parseM3U(content) {
-      const lines = content.split('\n');
-      const channels = [];
-      for (let i = 0; i < lines.length; i++) {
-        if (lines[i].startsWith('#EXTINF')) {
-          const title = lines[i].split(',')[1]?.trim() || 'بدون اسم';
-          const logo = lines[i].match(/tvg-logo="(.*?)"/)?.[1] || 'https://via.placeholder.com/100x100';
-          const group = lines[i].match(/group-title="(.*?)"/)?.[1] || 'غير مصنف';
-          const url = lines[i + 1]?.trim();
-          if (url?.startsWith('http')) channels.push({ title, logo, group, url });
-        }
-      }
-      allChannels = channels;
-      updateCategoryBar();
-      displayChannels();
-    }
-
-    function updateCategoryBar() {
-      categoryMenu.innerHTML = '';
-      const groups = [...new Set(allChannels.map(c => c.group))];
-      const allBtn = document.createElement('button');
-      allBtn.textContent = 'كل القنوات';
-      allBtn.className = 'block w-full text-right px-4 py-2 text-sm hover:bg-gray-700';
-      allBtn.onclick = () => {
-        categoryBtn.textContent = '📂 كل القنوات';
-        displayChannels('all');
-        categoryMenu.classList.add('hidden');
-      };
-      categoryMenu.appendChild(allBtn);
-      groups.forEach(group => {
-        const btn = document.createElement('button');
-        btn.textContent = group;
-        btn.className = 'block w-full text-right px-4 py-2 text-sm hover:bg-gray-700';
-        btn.onclick = () => {
-          categoryBtn.textContent = `📂 ${group}`;
-          displayChannels(group);
-          categoryMenu.classList.add('hidden');
-        };
-        categoryMenu.appendChild(btn);
+    function loadGroups() {
+      groupsList.innerHTML = "";
+      data.forEach((group, idx) => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.textContent = group.name;
+        div.onclick = () => selectGroup(idx);
+        groupsList.appendChild(div);
       });
     }
 
-    function displayChannels(selected = 'all') {
-      const container = document.getElementById('channelGroups');
-      container.innerHTML = '';
-      const groups = [...new Set(allChannels.map(c => c.group))];
-      groups.forEach(group => {
-        if (selected !== 'all' && selected !== group) return;
-        const section = document.createElement('div');
-        section.innerHTML = `<h2 class="text-xl font-bold mb-2">${group}</h2>`;
-        const grid = document.createElement('div');
-        grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4';
-        allChannels.filter(c => c.group === group).forEach(channel => {
-          const card = document.createElement('div');
-          card.className = 'bg-gray-800 p-2 rounded hover:scale-105 transition';
-          const isFavorite = getFavorites().includes(channel.url);
-          card.innerHTML = `
-            <img src="${channel.logo}" class="w-full object-contain rounded mx-auto" style="max-height: 60px;" />
-            <div class="text-sm mt-2 text-center truncate">${channel.title}</div>
-            <button onclick="toggleFavorite(event, '${channel.url}')" class="mt-1 text-yellow-400 text-xs hover:underline">
-              ${isFavorite ? '⭐ إزالة من المفضلة' : '☆ أضف إلى المفضلة'}
-            </button>`;
-          card.addEventListener('click', e => {
-            if (e.target.tagName !== 'BUTTON') checkAndPlayChannel(channel.url);
-          });
-          grid.appendChild(card);
-        });
-        section.appendChild(grid);
-        container.appendChild(section);
+    function selectGroup(idx) {
+      currentGroup = data[idx];
+      selectedGroupName.textContent = currentGroup.name;
+      loadChannels();
+      showPage("channelsPage");
+    }
+
+    function loadChannels() {
+      channelsList.innerHTML = "";
+      currentGroup.channels.forEach((channel, idx) => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.textContent = channel.name;
+        div.onclick = () => selectChannel(idx);
+        channelsList.appendChild(div);
       });
     }
 
-
-    function checkAndPlayChannel(url) {
-      spinner.classList.remove("hidden");
-      fetch(url, { method: 'HEAD' })
-        .then(res => res.ok ? playChannel(url) : alert('❌   البث غير متاح حاليا'))
-
-        .finally(() => spinner.classList.add("hidden"));
-            const proxiedUrl = "/proxy-stream?url=" + encodeURIComponent(originalUrl);
-    console.log("🎬 تشغيل عبر البروكسي:", proxiedUrl);
-    playChannel(proxiedUrl); // ← تأكد أن لديك هذه الدالة فعلاً
-  }
-
-
-
-
-
-  function playChannel(url) {
-  lastChannelUrl = url;
-  const video = document.getElementById("videoElement");
-  const spinner = document.getElementById("loadingSpinner");
-
-  spinner.classList.remove("hidden");
-
-  if (window.hls) {
-    window.hls.destroy();
-    window.hls = null;
-  }
-
-  video.pause();
-  video.removeAttribute("src");
-  video.load();
-
-  let ext = url;
-  if (url.includes("proxy-stream")) {
-    const realUrl = new URLSearchParams(url.split('?')[1]).get("url");
-    ext = realUrl ? realUrl : url;
-  }
-  ext = ext.split('.').pop().toLowerCase();
-
-  if (ext === "m3u8" && Hls.isSupported()) {
-    const hls = new Hls();
-    Hls.DefaultConfig.maxBufferLength = 10;
-    Hls.DefaultConfig.maxRetry = 3;
-    Hls.DefaultConfig.retryDelay = 2000;
-
-    hls.loadSource(url);
-    hls.attachMedia(video);
-    window.hls = hls;
-
-    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-      video.play().catch(() => {});
-      spinner.classList.add("hidden");
-      showZoomGesture();
-    });
-
-    hls.on(Hls.Events.ERROR, (_, data) => {
-      if (data.fatal) {
-        console.warn("📛 فشل البث - إعادة المحاولة خلال 3 ثوانٍ");
-        showErrorMessage("❌ إعادة الاتصال...");
-        setTimeout(() => {
-          hideErrorMessage();
-          playChannel(url); // ✅ يعيد المحاولة كل 3 ثواني
-        }, 3000);
-      }
-    });
-
-  } else if (["mp4", "ts", "webm", "ogg", "mp3"].includes(ext)) {
-    video.src = url;
-    video.load();
-    video.play().catch(() => {
-      console.warn("📛 فشل التشغيل - إعادة المحاولة خلال 3 ثوانٍ");
-      setTimeout(() => playChannel(lastChannelUrl), 3000);
-    });
-    spinner.classList.add("hidden");
-
-  } else {
-    fallbackToFlowplayer(url);
-  }
-
-  document.getElementById('sideBySideContainer').classList.remove('hidden');
-  document.getElementById('playerContainer').classList.remove('hidden');
-  document.getElementById('channelGroups').classList.remove('hidden');
-
-  document.getElementById('startSound').play().catch(() => {});
-
-  const playerContainer = document.getElementById('playerContainer');
-  const rect = playerContainer.getBoundingClientRect();
-  if (rect.top < 0 || rect.bottom > window.innerHeight) {
-    document.body.style.overflow = 'hidden';
-    playerContainer.scrollIntoView({ behavior: 'smooth' });
-    setTimeout(() => {
-      document.body.style.overflow = 'auto';
-    }, 1000);
-  }
-}
-
-
-
-
-
-
-function fallbackToFlowplayer(url) {
-  // إخفاء plyr، إظهار flowplayer
-  document.getElementById("plyrContainer").classList.add("hidden");
-  document.getElementById("flowContainer").classList.remove("hidden");
-
-  document.getElementById("flowSource").src = url;
-  flowplayer(); // إعادة تهيئة Flowplayer
-  spinner.classList.add("hidden");
-}
-
-
-
-
-    function closePlayer() {
-  if (window.hls) window.hls.destroy();
-  video.pause();
-
-  // ✅ في الجوال فقط، نخفي المشغل
-  if (window.innerWidth < 768) {
-    document.getElementById('playerContainer').classList.add('hidden');
-  }
-
-  // ✅ نعيد عرض القنوات
-  document.getElementById('channelGroups').classList.remove('hidden');
-}
-
-
-    function playLastChannel() {
-      if (lastChannelUrl) checkAndPlayChannel(lastChannelUrl);
+    function selectChannel(idx) {
+      currentChannel = currentGroup.channels[idx];
+      selectedChannelName.textContent = currentChannel.name;
+      if (currentChannel.url && currentChannel.url.trim() !== "") {
+        playButton.style.display = "inline-block";
+        playButton.onclick = () => openInVLC(currentChannel.url);
+      } else playButton.style.display = "none";
+      showPage("playerPage");
     }
 
-    function getFavorites() {
-      return JSON.parse(localStorage.getItem('favorites') || '[]');
+    function goBackToGroups() { showPage("groupsPage"); }
+    function goBackToChannels() { showPage("channelsPage"); }
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
     }
 
-    function toggleFavorite(event, url) {
-      event.stopPropagation();
-      let favorites = getFavorites();
-      if (favorites.includes(url)) {
-        favorites = favorites.filter(f => f !== url);
-        showFavoriteNotification('🚫 تمت الإزالة من المفضلة');
+    // ====== فتح VLC ======
+    function openInVLC(streamUrl) {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const tempUrl = streamUrl + (streamUrl.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
+      const note = document.getElementById("note");
+      const installLink = document.getElementById("installLink");
+      installLink.style.display = "none";
+      let targetUrl = "", downloadUrl = "";
+
+      if (/android/i.test(userAgent)) {
+        targetUrl = `intent://${tempUrl.replace(/^https?:\/\//, '')}#Intent;scheme=http;package=org.videolan.vlc;end`;
+        downloadUrl = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
       } else {
-        favorites.push(url);
-        showFavoriteNotification();
+        targetUrl = `vlc://${tempUrl}`;
+        downloadUrl = "https://www.videolan.org/vlc/";
       }
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-      displayChannels();
+
+      window.location.href = targetUrl;
+      setTimeout(() => {
+        note.innerHTML = "⚠️ لم يتم فتح VLC تلقائيًا، يمكنك تحميله من الرابط أدناه:";
+        installLink.href = downloadUrl;
+        installLink.style.display = "inline-block";
+      }, 1800);
     }
 
-    function showFavoriteNotification(msg = '✅ تم الإضافة إلى المفضلة') {
-      const notif = document.getElementById('favNotification');
-      notif.textContent = msg;
-      notif.classList.remove('hidden');
-      setTimeout(() => notif.classList.add('hidden'), 2000);
+    // ====== الإرشادات أول مرة ======
+    const hasVisited = localStorage.getItem('hasVisited');
+    const apkUrl = "https://play.google.com/store/apps/details?id=org.videolan.vlc";
+    function skipInstructions() {
+      localStorage.setItem('hasVisited', 'true');
+      document.getElementById('instructions').style.display = 'none';
+      const link = document.createElement('a');
+      link.href = apkUrl;
+      link.download = '';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
-    function displayFavorites() {
-      const btn = event.target;
-      if (showingFavorites) {
-        const savedContent = localStorage.getItem('savedM3UContent');
-        const savedUrl = localStorage.getItem('savedM3UUrl');
-        if (savedContent) parseM3U(savedContent);
-        else if (savedUrl) fetch(savedUrl).then(r => r.text()).then(parseM3U);
-        btn.textContent = '⭐ المفضلة';
-        showingFavorites = false;
-      } else {
-        const favs = getFavorites();
-        const filtered = allChannels.filter(c => favs.includes(c.url));
-        allChannels = filtered;
-        displayChannels('all');
-        btn.textContent = '↩️ رجوع للتصنيفات';
-        showingFavorites = true;
-      }
+    if (!hasVisited) {
+      document.getElementById('instructions').style.display = 'flex';
     }
 
-    function loadSavedChannels() {
-      const notice = document.getElementById('loadingNotice');
-      notice.classList.remove('hidden');
-      const savedContent = localStorage.getItem('savedM3UContent');
-      const savedUrl = localStorage.getItem('savedM3UUrl');
-      const onComplete = () => setTimeout(() => notice.classList.add('hidden'), 1000);
-      if (savedContent) {
-        parseM3U(savedContent);
-        onComplete();
-      if (savedContent) {
-  parseM3U(savedContent);
-} else if (savedUrl) {
-  fetch(savedUrl).then(res => res.text()).then(parseM3U);
-} else {
-  const defaultUrl = "https://www.arabseed.stream/storage/m3u/playlist_68203bbd9e6114.72123431.m3u";
-  fetch(defaultUrl)
-    .then(res => res.text())
-    .then(content => {
-      localStorage.setItem('savedM3UUrl', defaultUrl);
-      parseM3U(content);
-    });
-}
-
-      } else {
-        alert("❌ لا توجد قنوات محفوظة");
-        onComplete();
-      }
-    }
-
-    document.getElementById('m3uFile').addEventListener('change', e => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => {
-        const content = e.target.result;
-        localStorage.setItem('savedM3UContent', content);
-        localStorage.removeItem('savedM3UUrl');
-        parseM3U(content);
-        const notif = document.getElementById('loadingNotice');
-        notif.textContent = "✅ تم حفظ القنوات بنجاح";
-        notif.classList.remove("hidden");
-        setTimeout(() => {
-          notif.classList.add("hidden");
-          notif.textContent = "⏳ جارٍ تحميل القنوات...";
-        }, 2000);
-      };
-      reader.readAsText(file);
-    });
-
-    document.getElementById('loadUrl').addEventListener('click', () => {
-      const url = document.getElementById('m3uUrl').value.trim();
-      if (!url) return alert('❌ أدخل رابط صالح');
-      fetch(url)
-        .then(res => res.text())
-        .then(content => {
-          localStorage.setItem('savedM3UUrl', url);
-          localStorage.removeItem('savedM3UContent');
-          parseM3U(content);
-        })
-        .catch(() => alert('❌ تعذر تحميل الرابط'));
-    });
-
-    document.getElementById('searchInput').addEventListener('input', e => {
-  const term = e.target.value.toLowerCase();
-  const filtered = allChannels.filter(ch => ch.title.toLowerCase().includes(term));
-  displayFilteredChannels(filtered);
-});
-
-
-
-
-// ✅ المفضله web
-function displayFilteredChannels(filteredList) {
-  const container = document.getElementById('channelGroups');
-  container.innerHTML = '';
-  const grouped = {};
-
-  filteredList.forEach(ch => {
-    if (!grouped[ch.group]) grouped[ch.group] = [];
-    grouped[ch.group].push(ch);
-  });
-
-  Object.keys(grouped).forEach(group => {
-    const section = document.createElement('div');
-    section.innerHTML = `<h2 class="text-xl font-bold mb-2">${group}</h2>`;
-    const grid = document.createElement('div');
-    grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4';
-
-    grouped[group].forEach(channel => {
-      const card = document.createElement('div');
-      card.className = 'bg-gray-800 p-2 rounded hover:scale-105 transition';
-      const isFavorite = getFavorites().includes(channel.url);
-      card.innerHTML = `
-        <img src="${channel.logo}" class="w-full object-contain rounded mx-auto" style="max-height: 60px;" />
-        <div class="text-sm mt-2 text-center truncate">${channel.title}</div>
-        <button onclick="toggleFavorite(event, '${channel.url}')" class="mt-1 text-yellow-400 text-xs hover:underline">
-          ${isFavorite ? '⭐ إزالة من المفضلة' : '☆ أضف إلى المفضلة'}
-        </button>`;
-      card.addEventListener('click', e => {
-        if (e.target.tagName !== 'BUTTON') checkAndPlayChannel(channel.url);
-      });
-      grid.appendChild(card);
-    });
-
-    section.appendChild(grid);
-    container.appendChild(section);
-  });
-}
-
-
-  // ✅   <!-- زر قائمة م -->
-
-function toggleM3UDropdown() {
-  document.getElementById('m3uDropdown').classList.toggle('hidden');
-}
-
-
-
-    // ✅ تحميل تلقائي عند فتح الصفحة مع حقن رابط افتراضي
-    window.onload = () => {
-      const savedContent = localStorage.getItem('savedM3UContent');
-      const savedUrl = localStorage.getItem('savedM3UUrl');
-
-      if (savedContent) {
-        parseM3U(savedContent);
-      } else if (savedUrl) {
-        fetch(savedUrl).then(res => res.text()).then(parseM3U);
-      } else {
-        const defaultUrl = "";
-        fetch(defaultUrl)
-          .then(res => res.text())
-          .then(content => {
-            localStorage.setItem('savedM3UUrl', defaultUrl);
-            parseM3U(content);
-          })
-          .catch(() => alert("❌ تعذر تحميل القنوات من الرابط الافتراضي"));
-      }
-    };
-
-
-
-
-    categoryBtn.addEventListener('click', () => {
-  categoryMenu.classList.toggle('hidden');
-});
-
-
-
-
-
-
-
-// ✅ زر تحديث القنوات
-function loadChannelsFromDefault() {
-  const notice = document.getElementById('loadingNotice');
-  notice.classList.remove('hidden');
-
-  const defaultUrl = "https://www.arabseed.stream/storage/m3u/playlist_68203bbd9e6114.72123431.m3u";
-
-  fetch(defaultUrl)
-    .then(res => res.text())
-    .then(content => {
-      localStorage.setItem('savedM3UUrl', defaultUrl);  // اختياري إذا أردت الحفظ
-      localStorage.removeItem('savedM3UContent');       // إلغاء أي ملف محفوظ
-      parseM3U(content);
-    })
-    .catch(() => alert("❌ تعذر تحميل القنوات من الرابط"))
-    .finally(() => setTimeout(() => notice.classList.add('hidden'), 1000));
-}
-
-
-// ✅ خاص mkv
-
-function playCustomVideo() {
-    const url = document.getElementById("customVideoUrl").value.trim();
-    if (!url || !url.startsWith("http")) {
-      alert("❌ أدخل رابط صالح يبدأ بـ http");
-      return;
-    }
-
-    // Try Universal Player first for better compatibility
-    if (window.UniversalPlayer) {
-      playWithUniversalPlayer(url);
-    } else {
-      checkAndPlayChannel(url); // ✅ تستخدم دالة التشغيل الذكية من مشروعك
-    }
-  }
-
-// Enhanced playback with Universal Player
-function playWithUniversalPlayer(url) {
-  // Create or get universal player instance
-  if (!window.universalPlayerInstance) {
-    // Create a container for the universal player
-    const playerContainer = document.createElement('div');
-    playerContainer.id = 'universalPlayerContainer';
-    playerContainer.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      width: 400px;
-      max-width: 90vw;
-      z-index: 10000;
-      background: rgba(0,0,0,0.9);
-      border-radius: 12px;
-      padding: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    `;
-
-    // Add close button
-    const closeBtn = document.createElement('button');
-    closeBtn.innerHTML = '❌';
-    closeBtn.style.cssText = `
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 1;
-    `;
-    closeBtn.onclick = () => {
-      if (window.universalPlayerInstance) {
-        window.universalPlayerInstance.destroy();
-        window.universalPlayerInstance = null;
-      }
-      playerContainer.remove();
-    };
-
-    playerContainer.appendChild(closeBtn);
-
-    // Add player div
-    const playerDiv = document.createElement('div');
-    playerDiv.id = 'universalPlayer';
-    playerContainer.appendChild(playerDiv);
-
-    document.body.appendChild(playerContainer);
-
-    // Initialize Universal Player
-    window.universalPlayerInstance = new UniversalPlayer('#universalPlayer', {
-      autoplay: true,
-      controls: true,
-      volume: 0.8
-    });
-
-    // Add enhancements if available
-    if (window.PlayerEnhancements) {
-      window.universalPlayerEnhancements = new PlayerEnhancements(window.universalPlayerInstance);
-    }
-  }
-
-  // Load and play the URL
-  window.universalPlayerInstance.load(url).then(() => {
-    console.log('✅ تم تحميل الرابط بنجاح مع المشغل العالمي');
-
-    // Show success notification
-    showNotification('✅ تم بدء التشغيل بنجاح', 'success');
-
-    // Hide the original player if it's showing
-    const playerContainer = document.getElementById('playerContainer');
-    if (playerContainer && !playerContainer.classList.contains('hidden')) {
-      playerContainer.classList.add('hidden');
-    }
-
-  }).catch(error => {
-    console.warn('⚠️ فشل المشغل العالمي، التبديل للمشغل الأصلي:', error);
-    showNotification('⚠️ التبديل للمشغل الاحتياطي...', 'warning');
-
-    // Fallback to original player
-    setTimeout(() => checkAndPlayChannel(url), 1000);
-  });
-}
-
-// Enhanced notification system
-function showNotification(message, type = 'info') {
-  // Remove existing notifications
-  const existingNotifications = document.querySelectorAll('.custom-notification');
-  existingNotifications.forEach(notif => notif.remove());
-
-  const notification = document.createElement('div');
-  notification.className = 'custom-notification';
-  notification.textContent = message;
-
-  const colors = {
-    success: '#4CAF50',
-    error: '#f44336',
-    warning: '#ff9800',
-    info: '#2196F3'
-  };
-
-  notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: ${colors[type] || colors.info};
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    z-index: 10001;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    animation: slideDown 0.3s ease-out;
-  `;
-
-  // Add animation keyframes if not exists
-  if (!document.querySelector('#notificationStyles')) {
-    const style = document.createElement('style');
-    style.id = 'notificationStyles';
-    style.textContent = `
-      @keyframes slideDown {
-        from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
-        to { transform: translateX(-50%) translateY(0); opacity: 1; }
-      }
-      @keyframes slideUp {
-        from { transform: translateX(-50%) translateY(0); opacity: 1; }
-        to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  document.body.appendChild(notification);
-
-  // Auto remove after 3 seconds
-  setTimeout(() => {
-    notification.style.animation = 'slideUp 0.3s ease-out';
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
-}
-
-
-
-
-
-// ✅ خاص app
-function uploadApkToServer() {
-  const input = document.getElementById('apkUploader');
-  const file = input.files[0];
-  const status = document.getElementById('apkUploadStatus');
-  const progressBar = document.getElementById('apkProgressBar');
-  const progressContainer = document.getElementById('apkProgressContainer');
-
-  if (!file) {
-    status.innerHTML = `<span class="text-red-400">❌ الرجاء اختيار ملف APK</span>`;
-    return;
-  }
-
-  // ✅ حساب الحجم بالميغابايت
-  const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-  status.innerHTML = `⏳ جاري رفع ملف (${fileSizeMB} MB)...`;
-
-  const formData = new FormData();
-  formData.append('apk_file', file);
-
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', "/upload-apk", true);
-  xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
-
-  // عرض شريط التقدم
-  progressContainer.classList.remove('hidden');
-  progressBar.style.width = '0%';
-
-  xhr.upload.addEventListener('progress', (e) => {
-    if (e.lengthComputable) {
-      const percent = Math.round((e.loaded / e.total) * 100);
-      progressBar.style.width = percent + '%';
-    }
-  });
-
-  xhr.onload = () => {
-    if (xhr.status === 200) {
-      const data = JSON.parse(xhr.responseText);
-      if (data.success) {
-        progressBar.style.width = '100%';
-        status.innerHTML = `<span class="text-green-400">✅ تم الرفع بنجاح</span><br>
-          <a href="${data.url}" target="_blank" class="inline-block mt-2 bg-red-600 py-2 px-4 rounded">📥 تحميل التطبيق</a>`;
-      } else {
-        status.innerHTML = `<span class="text-red-400">❌ ${data.error || 'حدث خطأ أثناء الرفع'}</span>`;
-      }
-    } else {
-      status.innerHTML = `<span class="text-red-400">❌ فشل الاتصال بالسيرفر</span>`;
-    }
-  };
-
-  xhr.onerror = () => {
-    status.innerHTML = `<span class="text-red-400">❌ حدث خطأ في الاتصال</span>`;
-  };
-
-  xhr.send(formData);
-}
-
-
-
-
-
-  function uploadM3UToServer() {
-  const fileInput = document.getElementById('m3uFile');
-  const file = fileInput.files[0];
-
-  if (!file) {
-    alert("❌ الرجاء اختيار ملف أولاً");
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('m3u_file', file);
-
-  fetch('/Dashboard/Settings/upload-m3u', {
-    method: 'POST',
-    headers: {
-      'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    },
-    body: formData
-  })
-    .then(res => res.ok ? res.text() : Promise.reject(res))
-    .then(() => {
-      alert('✅ تم رفع الملف إلى السيرفر بنجاح!');
-    })
-    .catch(() => alert('❌ فشل رفع الملف'));
-}
-
-
-
-
- // ✅  خاص  ازرار القائمة م
-function loadFromUrl(url) {
-  const notice = document.getElementById('loadingNotice');
-  notice.classList.remove('hidden');
-
-  fetch(url)
-    .then(res => res.text())
-    .then(content => {
-      localStorage.setItem('savedM3UUrl', url);
-      localStorage.removeItem('savedM3UContent');
-      parseM3U(content);
-    })
-    .catch(() => alert("❌ تعذر تحميل القنوات من الرابط"))
-    .finally(() => setTimeout(() => notice.classList.add('hidden'), 1000));
-}
-
-
-
-
-function applyTransform() {
-  videoEl.style.transform = `scale(${lastScale}) translate(${currentX}px, ${currentY}px)`;
-}
-
-
-
-function distance(touches) {
-  const dx = touches[0].clientX - touches[1].clientX;
-  const dy = touches[0].clientY - touches[1].clientY;
-  return Math.sqrt(dx * dx + dy * dy);
-}
-
-
-
-
-//<script>
-// 🌟 متغيرات التكبير
-let currentZoomIndex = 0;
-const zoomLevels = [1, 1.3, 1.6, 2];
-let initialDistance = null;
-let lastScale = 1;
-let currentX = 0;
-let currentY = 0;
-let lastX = 0;
-let lastY = 0;
-
-const wrapper = document.getElementById('zoomWrapper');
-const videoEl = document.getElementById('videoElement');
-const zoomBtn = document.getElementById('zoomButton');
-
-// ✅ دالة تطبيق التحويل
-function applyTransform() {
-  videoEl.style.transform = `scale(${lastScale}) translate(${currentX}px, ${currentY}px)`;
-}
-
-// ✅ دالة حساب المسافة بين إصبعين
-function distance(touches) {
-  const dx = touches[0].clientX - touches[1].clientX;
-  const dy = touches[0].clientY - touches[1].clientY;
-  return Math.sqrt(dx * dx + dy * dy);
-}
-
-// ✅ التكبير اليدوي عبر الزر
-function cycleZoom() {
-  currentZoomIndex = (currentZoomIndex + 1) % zoomLevels.length;
-  lastScale = zoomLevels[currentZoomIndex];
-  currentX = 0;
-  currentY = 0;
-  applyTransform();
-  zoomBtn.innerText = `✂️ Zoom ×${lastScale}`;
-}
-
-// ✅ إظهار زر التكبير فقط في وضع ملء الشاشة
-document.addEventListener('fullscreenchange', () => {
-  if (document.fullscreenElement) {
-    zoomBtn.classList.remove('hidden');
-  } else {
-    zoomBtn.classList.add('hidden');
-    lastScale = 1;
-    currentX = 0;
-    currentY = 0;
-    applyTransform();
-    zoomBtn.innerText = '✂️ Zoom ×1';
-    currentZoomIndex = 0;
-  }
-});
-
-// ✅ أحداث اللمس للتكبير
-wrapper.addEventListener('touchstart', e => {
-  if (e.touches.length === 2) {
-    initialDistance = distance(e.touches);
-  } else if (e.touches.length === 1 && lastScale > 1) {
-    lastX = e.touches[0].clientX - currentX;
-    lastY = e.touches[0].clientY - currentY;
-  }
-}, { passive: false });
-
-wrapper.addEventListener('touchmove', e => {
-  if (e.touches.length === 2 && initialDistance) {
-    e.preventDefault();
-    const newDistance = distance(e.touches);
-    let scale = newDistance / initialDistance;
-
-    const videoWidth = videoEl.offsetWidth;
-    if (videoWidth === 0) return; // ✅ إصلاح التجمّد
-
-    const screenWidth = window.innerWidth;
-    const maxScale = (screenWidth / videoWidth) * 1.2;
-    lastScale = Math.min(Math.max(scale, 1), maxScale);
-
-    applyTransform();
-  } else if (e.touches.length === 1 && lastScale > 1) {
-    e.preventDefault();
-    currentX = 0;
-    currentY = 0;
-    applyTransform();
-  }
-}, { passive: false });
-
-// ✅ حركة اليد عند بدء التشغيل
-function showZoomGesture() {
-  if (!document.fullscreenElement) return;
-  const gesture = document.getElementById('zoomGesture');
-  if (!gesture) return;
-  gesture.classList.remove('hidden');
-  setTimeout(() => gesture.classList.add('hidden'), 3000);
-}
-
-
-
-
-//upload-xtream
-function loadXtream() {
-  const host = document.getElementById('xtreamHost').value.trim();
-  const user = document.getElementById('xtreamUser').value.trim();
-  const pass = document.getElementById('xtreamPass').value.trim();
-
-  if (!host || !user || !pass) {
-    alert("❌ الرجاء تعبئة جميع الحقول");
-    return;
-  }
-
-  const port = host.split(':')[2] || '8080'; // محاولة استخراج البورت
-  const cleanHost = host.split(':')[0] + '://' + host.split('/')[2]; // تنظيف الرابط
-
-  const formData = new FormData();
-  formData.append('host', cleanHost);
-  formData.append('port', port);
-  formData.append('username', user);
-  formData.append('password', pass);
-
-  const csrf = document.querySelector('meta[name="csrf-token"]').content;
-
-  fetch('/upload-xtream', {
-    method: 'POST',
-    headers: {
-      'X-CSRF-TOKEN': csrf
-    },
-    body: formData
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert(`✅ تم تحميل الملف:\n${data.download_url}`);
-        // يمكنك الآن تشغيل تحليل الملف أو إعادة تحميل القنوات
-      } else {
-        alert(`❌ خطأ: ${data.error || "غير معروف"}`);
-      }
-    })
-    .catch(err => {
-      alert("❌ فشل الاتصال بالخادم");
-      console.error(err);
-    });
-}
-
-
-
-
-
-
-    </script>
-  </body>
+    // تحميل المجموعات
+    loadGroups();
+  </script>
+</body>
 </html>
